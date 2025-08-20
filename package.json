@@ -19,18 +19,19 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "cd apps/web && npm run dev",
-    "build": "cd apps/web && npm run build",
-    "preview": "cd apps/web && npm run preview",
-    "lint": "cd apps/web && npm run lint",
-    "typecheck": "cd apps/web && npm run typecheck"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "preview": "turbo run preview",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "turbo": "^1.12.4"
   },
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "pnpm": ">=8.0.0"
   }
 }

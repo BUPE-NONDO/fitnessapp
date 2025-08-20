@@ -154,3 +154,21 @@ playwright/.cache/
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
+
+# Old FitnessApp files to be scrapped
+apps/web/src/components/
+apps/web/src/hooks/
+apps/web/src/services/
+apps/web/src/styles/
+apps/web/src/test/
+apps/web/src/utils/
+docs/
+scripts/
+functions/
+packages/
+pnpm-lock.yaml
+turbo.json
+firebase.json
+firestore.rules
+firestore.indexes.json
+firebase-config.json

@@ -1,231 +1,177 @@
-# 🏋️ FitnessApp
+# 💪 FitTrack - Clean Fitness App
 
-A modern fitness tracking application that helps users set, monitor, and achieve fitness goals through personalized dashboards and data-driven progress tracking.
+A simple, clean fitness tracking application with signup, login, and goal setting functionality.
 
-## 🎯 Overview
+## 🎨 Design Features
 
-FitnessApp enables users to:
-- Set measurable health and fitness goals
-- Log progress with detailed context (weight, reps, distance, etc.)
-- Visualize progress and habits over time
-- Track streaks and earn achievement badges
-- Monitor goal completion rates and personal records
+- **Mobile-First Design**: Optimized for smartphones and tablets
+- **Purple & White Theme**: Clean, modern color scheme
+- **Orange Accents**: Vibrant highlights for calls-to-action
+- **Custom Icons**: Unique, cohesive visual elements
+- **Responsive Layout**: Works perfectly on all screen sizes
 
-## 🛠️ Tech Stack
+## 🚀 Features
 
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | React + Vite + TypeScript |
-| **UI Framework** | shadcn/ui (Radix + Tailwind) |
-| **State Management** | TanStack Query |
-| **Forms** | React Hook Form + Zod |
-| **API Layer** | tRPC (typed, router-based) |
-| **Backend** | Firebase Cloud Functions |
-| **Database** | Firestore |
-| **Authentication** | Firebase Auth |
-| **Hosting** | Firebase Hosting |
-| **Monorepo** | PNPM workspaces + Turborepo |
-| **Testing** | Vitest + Playwright + Storybook |
-| **CI/CD** | GitHub Actions |
+### User Authentication
+- ✅ **Sign Up**: Create new account with email and password
+- ✅ **Sign In**: Login with existing credentials
+- ✅ **Form Validation**: Real-time input validation
+- ✅ **Password Confirmation**: Secure password setup
 
-## 📁 Project Structure
+### User Profile Setup
+- ✅ **Personal Information**: Age, gender, height, weight
+- ✅ **Activity Level**: From sedentary to extremely active
+- ✅ **Health Assessment**: Basic fitness evaluation
 
-```
-.
-├── apps/
-│   └── web/            # React frontend application
-├── functions/          # Firebase Cloud Functions + tRPC
-├── packages/
-│   ├── shared/         # Zod schemas, utils, types
-│   └── seeding/        # Firestore seeding scripts
-├── docs/               # Technical documentation
-│   ├── technical-design-doc.md
-│   ├── todo.md
-│   ├── design-system.md
-│   ├── deployment-guide.md
-│   ├── development-roadmap.md
-│   ├── CONTRIBUTING.md
-│   └── database-seeding-guide.md
-└── .github/            # GitHub workflows and templates
-```
+### Goal Setting
+- ✅ **Primary Goals**: Weight loss, muscle gain, endurance, general fitness
+- ✅ **Target Setting**: Specific weight and timeframe goals
+- ✅ **Motivation Tracking**: Personal motivation statements
+- ✅ **Progress Planning**: Structured goal achievement path
 
-## 🚀 Quick Start
+### Dashboard
+- ✅ **User Profile Display**: Complete user information
+- ✅ **Goal Overview**: Current goals and progress
+- ✅ **Quick Actions**: Easy access to key features
+- ✅ **Clean Interface**: Intuitive, uncluttered design
+
+## 🛠️ Technology Stack
+
+- **Frontend**: React 18 + TypeScript
+- **Styling**: Custom CSS with mobile-first design
+- **Build Tool**: Vite
+- **Package Manager**: npm
+- **Development**: ESLint + TypeScript
+
+## 📱 User Journey
+
+1. **Welcome Screen**: Clean signup/login interface
+2. **Account Creation**: Simple form with validation
+3. **Profile Setup**: Personal information collection
+4. **Goal Setting**: Fitness objectives and motivation
+5. **Dashboard**: Complete user overview and actions
+
+## 🚀 Getting Started
 
 ### Prerequisites
-
-- Node.js 18+
-- PNPM 8+
-- Firebase CLI
-- Git
+- Node.js 18+ 
+- npm 8+
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/BUPE-NONDO/FitnessApp.git
-   cd FitnessApp
+   git clone https://github.com/BUPE-NONDO/fitnessapp.git
+   cd fitnessapp
    ```
 
 2. **Install dependencies**
    ```bash
-   pnpm install
+   npm install
    ```
 
-3. **Setup environment variables**
+3. **Start development server**
    ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your Firebase configuration
+   npm run dev
    ```
 
-4. **Start Firebase emulators**
-   ```bash
-   pnpm emulators
+4. **Open in browser**
    ```
-
-5. **Start development server**
-   ```bash
-   pnpm dev
+   http://localhost:3000
    ```
-
-6. **Seed development data** (optional)
-   ```bash
-   pnpm seed
-   ```
-
-## 📋 Development Workflow
 
 ### Available Scripts
 
 ```bash
-# Development
-pnpm dev              # Start development server
-pnpm build            # Build for production
-pnpm preview          # Preview production build
-
-# Testing
-pnpm test             # Run unit tests
-pnpm test:e2e         # Run E2E tests
-pnpm test:coverage    # Generate coverage report
-
-# Code Quality
-pnpm lint             # Run ESLint
-pnpm lint:fix         # Fix ESLint issues
-pnpm typecheck        # Run TypeScript checks
-pnpm format           # Format with Prettier
-
-# Firebase
-pnpm emulators        # Start Firebase emulators
-pnpm deploy:staging   # Deploy to staging
-pnpm deploy:prod      # Deploy to production
-
-# Database
-pnpm seed             # Seed development data
-pnpm db:reset         # Reset database
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
+npm run typecheck    # Run TypeScript checks
 ```
 
-### Git Workflow
+## 🎯 Design Principles
 
-1. Create feature branch: `git checkout -b feature/your-feature`
-2. Make changes and commit: `git commit -m "feat: add new feature"`
-3. Push branch: `git push origin feature/your-feature`
-4. Create Pull Request
-5. After review, merge to main
+### Mobile-First Approach
+- Primary design for mobile devices
+- Responsive scaling for larger screens
+- Touch-friendly interface elements
+- Optimized for one-handed use
 
-## 🏗️ Architecture
+### Color Theme
+- **Primary**: Purple gradient (#667eea to #764ba2)
+- **Background**: Clean white (#ffffff)
+- **Accent**: Vibrant orange (#ff6b35)
+- **Text**: Dark gray (#2d3748, #4a5568)
+- **Muted**: Light gray (#718096)
 
+### User Experience
+- **Simple Navigation**: Clear, intuitive flow
+- **Progressive Disclosure**: Information revealed step-by-step
+- **Visual Feedback**: Immediate response to user actions
+- **Accessibility**: Focus states and keyboard navigation
+
+## 📋 Development Roadmap
+
+### Phase 1: Core Authentication ✅
+- [x] Sign up functionality
+- [x] Sign in functionality
+- [x] Form validation
+- [x] User profile setup
+
+### Phase 2: Goal Management ✅
+- [x] Goal setting interface
+- [x] Progress tracking
+- [x] Motivation system
+- [x] Dashboard overview
+
+### Phase 3: Enhanced Features (Future)
+- [ ] Workout planning
+- [ ] Progress charts
+- [ ] Social features
+- [ ] Data persistence
+- [ ] Push notifications
+
+## 🎨 Customization
+
+### Colors
+The app uses CSS custom properties for easy theming:
+
+```css
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --accent-color: #ff6b35;
+  --background-color: #ffffff;
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+}
 ```
-Client (React + TanStack Query)
-     ⇄
-tRPC (Cloud Functions)
-     ⇄
-Firestore + Firebase Auth
-```
 
-### Data Model
-
-| Entity | Key Fields | Notes |
-|--------|------------|-------|
-| **User** | uid, email, name, avatar | Auth via Firebase |
-| **Goal** | id, userId, title, metric, frequency, target | User's fitness goals |
-| **LogEntry** | id, goalId, date, value, notes | Activity logs |
-| **Badge** | id, userId, title, unlockedAt | Achievement system |
-
-## 🧪 Testing Strategy
-
-- **Unit Tests**: Vitest for pure functions and utilities
-- **Component Tests**: Testing Library for React components
-- **E2E Tests**: Playwright for critical user flows
-- **Visual Tests**: Storybook for component documentation
-- **Coverage Target**: ≥80% statements
-
-## 🚀 Deployment
-
-### Environments
-
-| Environment | URL | Purpose |
-|-------------|-----|---------|
-| **Local** | `http://localhost:3000` | Development with emulators |
-| **Staging** | `https://fitness-app-bupe-staging.web.app` | Live staging application |
-| **Production** | `https://app.yourdomain.com` | Live application |
-
-### CI/CD Pipeline
-
-1. **PR Checks**: Lint, typecheck, test, build
-2. **Preview Deploy**: Automatic staging deployment
-3. **Production Deploy**: Manual promotion after approval
-4. **Monitoring**: Error tracking and performance monitoring
-
-## 📖 Documentation
-
-- [Technical Design Document](./docs/technical-design-doc.md) - Core architecture and technical decisions
-- [Development Roadmap](./docs/todo.md) - Current project milestones and tasks
-- [Design System](./docs/design-system.md) - UI/UX guidelines and component standards
-- [Deployment Guide](./docs/deployment-guide.md) - Production deployment instructions
-- [Development Roadmap](./docs/development-roadmap.md) - Long-term project planning
-- [Contributing Guidelines](./docs/CONTRIBUTING.md) - How to contribute to the project
-- [Database Seeding Guide](./docs/database-seeding-guide.md) - Database setup and seeding instructions
+### Styling
+All styles are in `apps/web/src/App.css` with:
+- Mobile-first responsive design
+- Smooth animations and transitions
+- Accessibility-focused interactions
+- Clean, modern aesthetics
 
 ## 🤝 Contributing
 
-1. Check the [Project Board](https://github.com/users/BUPE-NONDO/projects/2) for available tasks
-2. Read the [Contributing Guidelines](./docs/CONTRIBUTING.md) for detailed instructions
-3. Read the [Technical Design Document](./docs/technical-design-doc.md)
-4. Follow the development workflow above
-5. Ensure all tests pass and code is properly formatted
-6. Submit a Pull Request with clear description
-
-### Issue Labels
-
-- `frontend` - Frontend/UI related tasks
-- `backend` - Backend/API related tasks
-- `database` - Database and data modeling
-- `authentication` - Auth and authorization
-- `testing` - Testing related tasks
-- `devops` - CI/CD and deployment
-- `performance` - Performance optimization
-- `accessibility` - Accessibility improvements
-- `priority:high/medium/low` - Task priority levels
-
-## 📊 Project Status
-
-### Current Milestone: **Milestone 1 - Project & Environment Setup**
-
-**Progress**: 5/5 issues
-- ✅ Create GitHub repo and documentation
-- ✅ Setup monorepo structure
-- ✅ Create Firebase project
-- 🔄 Deploy to staging
-- 🔄 Validate authentication
-
-[View all milestones →](https://github.com/BUPE-NONDO/FitnessApp/milestones)
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## 👨‍💻 Author
 
-- [T3 Stack](https://create.t3.gg/) for the technology foundation
-- [shadcn/ui](https://ui.shadcn.com/) for the component library
-- [Firebase](https://firebase.google.com/) for backend services
-fitness tracking app
+**BUPE-NONDO**
+- GitHub: [@BUPE-NONDO](https://github.com/BUPE-NONDO)
+- Email: bupe@hytel.io
+
+---
+
+**Built with ❤️ for fitness enthusiasts everywhere**

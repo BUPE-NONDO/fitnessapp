@@ -16,19 +16,18 @@
     "url": "https://github.com/BUPE-NONDO/fitnessapp.git"
   },
   "workspaces": [
-    "apps/*"
+    "apps/web"
   ],
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "preview": "turbo run preview",
-    "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck"
+    "dev": "cd apps/web && pnpm dev",
+    "build": "cd apps/web && pnpm build",
+    "preview": "cd apps/web && pnpm preview",
+    "lint": "cd apps/web && pnpm lint",
+    "typecheck": "cd apps/web && pnpm typecheck"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
-    "typescript": "^5.4.2",
-    "turbo": "^1.12.4"
+    "typescript": "^5.4.2"
   },
   "engines": {
     "node": ">=18.0.0",

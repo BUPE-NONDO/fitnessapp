@@ -1,13 +1,21 @@
 {
   "projects": {
     "default": "fitness-app-bupe-staging",
-    "staging": "fitness-app-bupe-staging"
+    "staging": "fitness-app-bupe-staging",
+    "production": "fitness-app-bupe-production"
   },
   "targets": {
     "fitness-app-bupe-staging": {
       "hosting": {
         "staging": [
           "fitness-app-bupe-staging"
+        ]
+      }
+    },
+    "fitness-app-bupe-production": {
+      "hosting": {
+        "production": [
+          "fitness-app-bupe-production"
         ]
       }
     }

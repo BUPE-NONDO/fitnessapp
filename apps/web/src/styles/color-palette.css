@@ -1,0 +1,128 @@
+/* FitnessApp Solid Color System - Fixed for React */
+:root {
+  /* SOLID PRIMARY COLORS - No opacity, direct hex values */
+  --primary-dark: #2D1B2E;
+  --primary-medium: #4A214C;
+  --primary-light: #6B2E6E;
+  --primary-lighter: #8B4A8E;
+  --primary-lightest: #A56AA8;
+  
+  /* SOLID ACCENT COLORS - Vibrant Orange */
+  --accent-orange: #FF6B35;
+  --accent-orange-light: #FF8A5C;
+  --accent-orange-dark: #E55A2B;
+  
+  /* SOLID BACKGROUND COLORS - Dark Purple */
+  --background-dark: #2D1B2E;
+  --background-medium: #4A214C;
+  --background-light: #6B2E6E;
+  
+  /* SOLID CARD COLORS - Light Beige/Off-White */
+  --card-light: #F8F1E9;
+  --card-lighter: #FAF5F0;
+  --card-lightest: #FDFBF8;
+  
+  /* SOLID TEXT COLORS - High Contrast */
+  --text-dark: #1F2937;
+  --text-light: #FFFFFF;
+  --text-muted: #6B7280;
+  --text-card: #1F2937;
+  --text-card-muted: #4B5563;
+  
+  /* SOLID BORDER COLORS - Clear Borders */
+  --stroke-dark: #2D1B2E;
+  --stroke-medium: #4A214C;
+  --stroke-light: #D4C4B5;
+  --stroke-card: #E5D7C8;
+  
+  /* SOLID SEMANTIC COLORS */
+  --success-green: #4CAF50;
+  --warning-yellow: #FFC107;
+  --error-red: #F44336;
+  --info-blue: #2196F3;
+  
+  /* SOLID GRADIENTS - No transparency */
+  --gradient-primary: linear-gradient(135deg, #2D1B2E 0%, #4A214C 100%);
+  --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #FF8A5C 100%);
+  --gradient-hero: linear-gradient(135deg, #2D1B2E 0%, #FF6B35 100%);
+  --gradient-background: linear-gradient(135deg, #2D1B2E 0%, #4A214C 100%);
+  --gradient-card: linear-gradient(135deg, #F8F1E9 0%, #FAF5F0 100%);
+  
+  /* SOLID SHADOWS - No transparency issues */
+  --shadow-sm: 0 1px 3px #2D1B2E;
+  --shadow-md: 0 4px 6px #2D1B2E;
+  --shadow-lg: 0 10px 25px #2D1B2E;
+  --shadow-xl: 0 20px 40px #2D1B2E;
+  --shadow-card: 0 2px 8px #2D1B2E;
+}
+
+/* SOLID BACKGROUND UTILITY CLASSES - Direct hex values */
+.bg-primary-dark { background-color: #2D1B2E !important; }
+.bg-primary-medium { background-color: #4A214C !important; }
+.bg-primary-light { background-color: #6B2E6E !important; }
+.bg-primary-lighter { background-color: #8B4A8E !important; }
+.bg-primary-lightest { background-color: #A56AA8 !important; }
+
+.bg-accent-orange { background-color: #FF6B35 !important; }
+.bg-accent-orange-light { background-color: #FF8A5C !important; }
+.bg-accent-orange-dark { background-color: #E55A2B !important; }
+
+.bg-background-dark { background-color: #2D1B2E !important; }
+.bg-background-medium { background-color: #4A214C !important; }
+.bg-background-light { background-color: #6B2E6E !important; }
+
+.bg-card-light { background-color: #F8F1E9 !important; }
+.bg-card-lighter { background-color: #FAF5F0 !important; }
+.bg-card-lightest { background-color: #FDFBF8 !important; }
+
+/* SOLID TEXT UTILITY CLASSES - Direct hex values */
+.text-primary-dark { color: #2D1B2E !important; }
+.text-primary-medium { color: #4A214C !important; }
+.text-primary-light { color: #6B2E6E !important; }
+.text-accent-orange { color: #FF6B35 !important; }
+.text-accent-orange-light { color: #FF8A5C !important; }
+.text-accent-orange-dark { color: #E55A2B !important; }
+.text-text-dark { color: #1F2937 !important; }
+.text-text-light { color: #FFFFFF !important; }
+.text-text-muted { color: #6B7280 !important; }
+.text-text-card { color: #1F2937 !important; }
+.text-text-card-muted { color: #4B5563 !important; }
+
+/* SOLID BORDER UTILITY CLASSES - Direct hex values */
+.border-primary-dark { border-color: #2D1B2E !important; }
+.border-primary-medium { border-color: #4A214C !important; }
+.border-primary-light { border-color: #6B2E6E !important; }
+.border-accent-orange { border-color: #FF6B35 !important; }
+.border-accent-orange-light { border-color: #FF8A5C !important; }
+.border-accent-orange-dark { border-color: #E55A2B !important; }
+.border-stroke-dark { border-color: #2D1B2E !important; }
+.border-stroke-medium { border-color: #4A214C !important; }
+.border-stroke-light { border-color: #D4C4B5 !important; }
+.border-stroke-card { border-color: #E5D7C8 !important; }
+
+/* SOLID GRADIENT UTILITY CLASSES - No transparency */
+.gradient-primary { background: linear-gradient(135deg, #2D1B2E 0%, #4A214C 100%) !important; }
+.gradient-accent { background: linear-gradient(135deg, #FF6B35 0%, #FF8A5C 100%) !important; }
+.gradient-hero { background: linear-gradient(135deg, #2D1B2E 0%, #FF6B35 100%) !important; }
+.gradient-background { background: linear-gradient(135deg, #2D1B2E 0%, #4A214C 100%) !important; }
+.gradient-card { background: linear-gradient(135deg, #F8F1E9 0%, #FAF5F0 100%) !important; }
+
+/* SOLID SHADOW UTILITY CLASSES - No transparency */
+.shadow-fitness-sm { box-shadow: 0 1px 3px #2D1B2E !important; }
+.shadow-fitness-md { box-shadow: 0 4px 6px #2D1B2E !important; }
+.shadow-fitness-lg { box-shadow: 0 10px 25px #2D1B2E !important; }
+.shadow-fitness-xl { box-shadow: 0 20px 40px #2D1B2E !important; }
+.shadow-card { box-shadow: 0 2px 8px #2D1B2E !important; }
+
+/* SOLID ICON BACKGROUNDS - No opacity issues */
+.icon-bg-orange { background-color: #FF6B35 !important; }
+.icon-bg-purple { background-color: #6B2E6E !important; }
+.icon-bg-green { background-color: #4CAF50 !important; }
+.icon-bg-blue { background-color: #2196F3 !important; }
+.icon-bg-yellow { background-color: #FFC107 !important; }
+.icon-bg-red { background-color: #F44336 !important; }
+
+/* SOLID HOVER STATES - Direct color changes */
+.hover-bg-card-lighter:hover { background-color: #FAF5F0 !important; }
+.hover-bg-accent-orange-dark:hover { background-color: #E55A2B !important; }
+.hover-bg-primary-light:hover { background-color: #6B2E6E !important; }

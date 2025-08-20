@@ -40,7 +40,12 @@ FitnessApp enables users to:
 │   └── seeding/        # Firestore seeding scripts
 ├── docs/               # Technical documentation
 │   ├── technical-design-doc.md
-│   └── todo.md
+│   ├── todo.md
+│   ├── design-system.md
+│   ├── deployment-guide.md
+│   ├── development-roadmap.md
+│   ├── CONTRIBUTING.md
+│   └── database-seeding-guide.md
 └── .github/            # GitHub workflows and templates
 ```
 
@@ -159,8 +164,8 @@ Firestore + Firebase Auth
 
 | Environment | URL | Purpose |
 |-------------|-----|---------|
-| **Local** | `http://localhost:5173` | Development with emulators |
-| **Staging** | Firebase preview channels | PR previews |
+| **Local** | `http://localhost:3000` | Development with emulators |
+| **Staging** | `https://fitness-app-bupe-staging.web.app` | Live staging application |
 | **Production** | `https://app.yourdomain.com` | Live application |
 
 ### CI/CD Pipeline
@@ -172,18 +177,22 @@ Firestore + Firebase Auth
 
 ## 📖 Documentation
 
-- [Technical Design Document](./docs/technical-design-doc.md)
-- [Development Roadmap](./docs/todo.md)
-- [API Documentation](./docs/api.md) (Coming soon)
-- [Component Library](./storybook) (Coming soon)
+- [Technical Design Document](./docs/technical-design-doc.md) - Core architecture and technical decisions
+- [Development Roadmap](./docs/todo.md) - Current project milestones and tasks
+- [Design System](./docs/design-system.md) - UI/UX guidelines and component standards
+- [Deployment Guide](./docs/deployment-guide.md) - Production deployment instructions
+- [Development Roadmap](./docs/development-roadmap.md) - Long-term project planning
+- [Contributing Guidelines](./docs/CONTRIBUTING.md) - How to contribute to the project
+- [Database Seeding Guide](./docs/database-seeding-guide.md) - Database setup and seeding instructions
 
 ## 🤝 Contributing
 
 1. Check the [Project Board](https://github.com/users/BUPE-NONDO/projects/2) for available tasks
-2. Read the [Technical Design Document](./docs/technical-design-doc.md)
-3. Follow the development workflow above
-4. Ensure all tests pass and code is properly formatted
-5. Submit a Pull Request with clear description
+2. Read the [Contributing Guidelines](./docs/CONTRIBUTING.md) for detailed instructions
+3. Read the [Technical Design Document](./docs/technical-design-doc.md)
+4. Follow the development workflow above
+5. Ensure all tests pass and code is properly formatted
+6. Submit a Pull Request with clear description
 
 ### Issue Labels
 

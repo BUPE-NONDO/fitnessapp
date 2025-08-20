@@ -15,7 +15,6 @@ import { BodyMetricsStep } from './steps/BodyMetricsStep';
 import { PreferencesStep } from './steps/PreferencesStep';
 import { ProgressPreviewStep } from './steps/ProgressPreviewStep';
 import { PlanSummaryStep } from './steps/PlanSummaryStep';
-import { CompletionStep } from './steps/CompletionStep';
 
 export interface OnboardingData {
   // Step 2: Age Selection
@@ -80,18 +79,17 @@ export interface OnboardingData {
   totalSteps: number;
 }
 
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 8;
 
 const STEP_COMPONENTS = [
-  WelcomeStep,           // Step 1
-  AgeSelectionStep,      // Step 2
-  GenderBodyTypeStep,    // Step 3
-  FitnessGoalStep,       // Step 4
-  BodyMetricsStep,       // Step 5
-  PreferencesStep,       // Step 6
-  ProgressPreviewStep,   // Step 7
-  PlanSummaryStep,       // Step 8
-  CompletionStep,        // Step 9 (Free plan completion)
+  WelcomeStep,           // Step 0
+  AgeSelectionStep,      // Step 1
+  GenderBodyTypeStep,    // Step 2
+  FitnessGoalStep,       // Step 3
+  BodyMetricsStep,       // Step 4
+  PreferencesStep,       // Step 5
+  ProgressPreviewStep,   // Step 6
+  PlanSummaryStep,       // Step 7 (Final step - Building Plan)
 ];
 
 interface OnboardingWizardProps {
@@ -124,27 +122,21 @@ export function OnboardingWizard({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
 
-  // Auto-save COMPLETELY DISABLED to prevent infinite loops during completion
-  // TODO: Re-enable with better logic after fixing completion flow
+  // Auto-save disabled during completion to prevent conflicts
   useEffect(() => {
-    console.log(`🚫 Auto-save COMPLETELY DISABLED to prevent infinite loops`);
-    console.log(`Current step: ${currentStep}, isLoading: ${isLoading}, isCompleting: ${isCompleting}`);
+    console.log(`📝 Onboarding step: ${currentStep}, isLoading: ${isLoading}, isCompleting: ${isCompleting}`);
 
-    // Completely disable auto-save for now
-    return () => {
-      // No interval to clear
-    };
+    // Auto-save is handled by localStorage in useOnboardingFlow
+    // No additional auto-save needed here to prevent conflicts
   }, [currentStep, isLoading, isCompleting]);
 
   const handleNext = async () => {
     if (!canGoNext || isTransitioning) return;
 
     setIsTransitioning(true);
-    
+
     try {
-      await nextStep();
-      
-      // If we've completed all steps, call onComplete
+      // If we're at the last step (step 8 - PlanSummaryStep), complete onboarding
       if (currentStep >= TOTAL_STEPS - 1) {
         console.log('🎉 Starting onboarding completion process...');
         setIsCompleting(true);
@@ -153,6 +145,9 @@ export function OnboardingWizard({
         } finally {
           setIsCompleting(false);
         }
+      } else {
+        // Otherwise, go to next step
+        await nextStep();
       }
     } catch (error) {
       console.error('Error proceeding to next step:', error);
@@ -174,10 +169,11 @@ export function OnboardingWizard({
   const handleStepUpdate = async (stepData: Partial<OnboardingData>) => {
     updateData(stepData);
 
-    // DISABLED: Save progress to isolated service to prevent infinite loops
-    // TODO: Re-enable with better logic after fixing completion flow
-    console.log(`🚫 Step progress save DISABLED for step ${currentStep} to prevent infinite loops`);
+    // Progress is automatically saved to localStorage by useOnboardingFlow
+    console.log(`📝 Step ${currentStep} data updated:`, Object.keys(stepData));
 
+    // Optional: Save to Firebase for persistence across devices
+    // This is disabled to prevent conflicts during development
     // if (user && currentStep > 0) {
     //   try {
     //     await IsolatedOnboardingService.updateOnboardingProgress(user.uid, currentStep, { ...data, ...stepData });
@@ -206,7 +202,7 @@ export function OnboardingWizard({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-primary-100 dark:from-gray-900 dark:to-purple-900/20 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 dark:from-gray-900 dark:to-purple-900/20 relative overflow-hidden">
       {/* Circle decorations */}
       <div className="absolute top-10 right-10 w-32 h-32 bg-purple-200/30 rounded-full blur-xl"></div>
       <div className="absolute bottom-20 left-10 w-48 h-48 bg-primary-300/20 rounded-full blur-2xl"></div>
@@ -241,9 +237,7 @@ export function OnboardingWizard({
                 'Metrics',
                 'Preferences',
                 'Preview',
-                'Summary',
-                'Plan',
-                'Complete'
+                'Building Plan'
               ]}
               className="hidden sm:block"
             />
@@ -278,16 +272,16 @@ export function OnboardingWizard({
       </div>
 
       {/* Footer Navigation */}
-      {currentStep > 0 && currentStep < TOTAL_STEPS - 1 && (
+      {currentStep > 0 && currentStep <= TOTAL_STEPS - 1 && (
         <div className="sticky bottom-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
           <div className="max-w-4xl mx-auto px-4 py-4">
             <StepNavigation
               canGoBack={canGoBack}
               canGoNext={canGoNext}
-              isLoading={isTransitioning}
+              isLoading={isTransitioning || isCompleting}
               onBack={handleBack}
               onNext={handleNext}
-              nextLabel={currentStep === TOTAL_STEPS - 2 ? 'Complete' : 'Continue'}
+              nextLabel={currentStep === TOTAL_STEPS - 1 ? 'Complete Onboarding' : 'Continue'}
             />
           </div>
         </div>

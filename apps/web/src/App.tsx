@@ -96,11 +96,11 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-primary-100 dark:from-gray-900 dark:to-purple-900/20 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Circle decorations */}
-      <div className="absolute top-10 right-10 w-32 h-32 bg-purple-200/30 rounded-full blur-xl"></div>
-      <div className="absolute bottom-20 left-10 w-48 h-48 bg-primary-300/20 rounded-full blur-2xl"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-purple-100/10 to-primary-200/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-background-dark flex items-center justify-center p-4 relative overflow-hidden" style={{ background: 'var(--gradient-background)' }}>
+      {/* Circle decorations with purple theme */}
+      <div className="absolute top-10 right-10 w-32 h-32 bg-primary-light/20 rounded-full blur-xl"></div>
+      <div className="absolute bottom-20 left-10 w-48 h-48 bg-accent-orange/15 rounded-full blur-2xl"></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-primary-light/10 to-accent-orange/10 rounded-full blur-3xl"></div>
       <div className="w-full max-w-md">
         {/* Theme Toggle */}
         <div className="flex justify-end mb-4">
@@ -109,8 +109,8 @@ function AppContent() {
 
         <div className="text-center mb-8">
           <div className="text-6xl mb-4">🏋️‍♂️</div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">FitnessApp</h1>
-          <p className="text-gray-600 dark:text-gray-400">Your personal fitness tracking companion</p>
+          <h1 className="text-3xl font-bold text-text-light mb-2">FitnessApp</h1>
+          <p className="text-text-muted">Your personal fitness tracking companion</p>
         </div>
 
         <LoginForm
@@ -119,7 +119,7 @@ function AppContent() {
         />
 
         <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-text-muted">
             🔥 Powered by Firebase • Built with React & TypeScript
           </p>
         </div>

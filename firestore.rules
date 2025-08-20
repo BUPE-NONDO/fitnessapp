@@ -41,6 +41,21 @@ service cloud.firestore {
       match /{subcollection}/{docId} {
         allow read, write: if isAuthenticated();
       }
+
+      // Explicit daily_goals subcollection access
+      match /daily_goals/{goalId} {
+        allow read, write: if isAuthenticated();
+      }
+
+      // Explicit workout_plans subcollection access
+      match /workout_plans/{planId} {
+        allow read, write: if isAuthenticated();
+      }
+
+      // Explicit onboarding_data subcollection access
+      match /onboarding_data/{dataId} {
+        allow read, write: if isAuthenticated();
+      }
     }
 
     // OPEN COLLECTION ACCESS - Allow authenticated users full access for development

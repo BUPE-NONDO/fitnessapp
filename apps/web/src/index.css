@@ -1,23 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import './styles/color-palette.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Design System Base Styles */
+/* FitnessApp Design System */
 @layer base {
-  /* Custom CSS Variables for Design System */
+  /* Custom CSS Variables for FitnessApp Theme */
   :root {
-    --color-primary-50: #eff6ff;
-    --color-primary-100: #dbeafe;
-    --color-primary-500: #3b82f6;
-    --color-primary-600: #2563eb;
-    --color-primary-700: #1d4ed8;
-    --color-primary-900: #1e3a8a;
+    /* Primary Colors */
+    --primary-dark: #4A214C;
+    --accent-orange: #FF6B35;
+    --background-light: #F8F1E9;
+    --text-dark: #2C2C2C;
+    --text-light: #FFFFFF;
+    --stroke-light: #D4C4B5;
+    
+    /* Additional Colors */
+    --primary-light: #6B2E6E;
+    --accent-orange-light: #FF8A5C;
+    --accent-orange-dark: #E55A2B;
+    --success-green: #4CAF50;
+    --warning-yellow: #FFC107;
+    --error-red: #F44336;
+    --info-blue: #2196F3;
 
-    --color-secondary-50: #faf5ff;
-    --color-secondary-100: #f3e8ff;
-    --color-secondary-500: #8b5cf6;
-    --color-secondary-600: #7c3aed;
-    --color-secondary-700: #6d28d9;
+    --color-secondary-50: #f8fafc;
+    --color-secondary-100: #f1f5f9;
+    --color-secondary-500: #64748b;
+    --color-secondary-600: #475569;
+    --color-secondary-700: #334155;
 
     --color-success-50: #f0fdf4;
     --color-success-100: #dcfce7;
@@ -56,16 +69,20 @@
     --color-primary-900: #dbeafe;
   }
 
-  /* Base typography */
+  /* Professional Typography */
   html {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   body {
-    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+    background: var(--gradient-background);
+    color: var(--text-dark);
     line-height: 1.6;
+    font-weight: 400;
+    min-height: 100vh;
   }
 
   /* Smooth transitions for theme switching */
@@ -169,15 +186,7 @@
   animation: shake 0.5s ease-in-out;
 }
 
-@layer base {
-  html {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-  
-  body {
-    @apply bg-gray-50 text-gray-900;
-  }
-}
+
 
 @layer components {
   /* Enhanced component styles with design system */
@@ -186,7 +195,7 @@
   }
 
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600;
+    @apply bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-500 shadow-sm;
   }
 
   .btn-secondary {
@@ -241,4 +250,81 @@
   .badge-neutral {
     @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200;
   }
+}
+
+  /* Global background circles with purple theme */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(139, 74, 142, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 60%, rgba(165, 106, 168, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 70% 30%, rgba(193, 138, 196, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+/* Ensure all interactive elements are clickable */
+button, 
+[role="button"], 
+.btn,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  pointer-events: auto !important;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+  z-index: 10;
+}
+
+/* Ensure clickable elements have proper cursor */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+.btn:not(:disabled),
+input[type="button"]:not(:disabled),
+input[type="submit"]:not(:disabled),
+input[type="reset"]:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Fix button clickability */
+button { pointer-events: auto !important; z-index: 10; position: relative; }
+
+/* Force button clickability - Critical Fix */
+button[class*="Start Workout"],
+button[class*="start-workout"],
+.workout-start-button,
+button:contains("Start Workout") {
+  pointer-events: auto !important;
+  z-index: 9999 !important;
+  position: relative !important;
+  cursor: pointer !important;
+}
+
+/* Ensure all buttons in workout components are clickable */
+[class*="WorkoutPlan"] button,
+[class*="workout"] button,
+.workout-container button {
+  pointer-events: auto !important;
+  z-index: 100 !important;
+  position: relative !important;
+  cursor: pointer !important;
+}
+
+/* Override any conflicting styles */
+* {
+  pointer-events: auto;
+}
+
+.bg-gradient-to-r button {
+  pointer-events: auto !important;
+  z-index: 999 !important;
 }

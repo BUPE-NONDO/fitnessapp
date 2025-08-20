@@ -16,7 +16,7 @@ A comprehensive, consistent UI/UX design system built with Tailwind CSS for the 
 
 The FitnessApp Design System provides a unified visual language and component library that ensures consistency across the entire application. Built on top of Tailwind CSS, it includes:
 
-- **Consistent Color Palette** - Primary, secondary, success, warning, and error colors
+- **Consistent Color Palette** - Primary dark, accent orange, background light, and semantic colors
 - **Typography Scale** - Responsive text sizes and weights
 - **Reusable Components** - Buttons, cards, inputs, badges, and more
 - **Layout Utilities** - Grid, container, and spacing systems
@@ -25,47 +25,76 @@ The FitnessApp Design System provides a unified visual language and component li
 
 ## 🎨 Color Palette
 
-### Primary Colors (Blue)
+### Primary Colors (Dark Purple)
 ```css
-primary-50:  #eff6ff  /* Very light blue */
-primary-100: #dbeafe  /* Light blue */
-primary-500: #3b82f6  /* Main blue */
-primary-600: #2563eb  /* Dark blue */
-primary-700: #1d4ed8  /* Darker blue */
-primary-900: #1e3a8a  /* Darkest blue */
+primary-50:  #f8f5f8  /* Very light purple */
+primary-100: #f0e8f0  /* Light purple */
+primary-200: #e1d1e1  /* Lighter purple */
+primary-300: #c8a8c8  /* Medium light purple */
+primary-400: #a87aa8  /* Medium purple */
+primary-500: #8a4c8a  /* Main purple */
+primary-600: #7a3c7a  /* Dark purple */
+primary-700: #6a2c6a  /* Darker purple */
+primary-800: #5a1c5a  /* Very dark purple */
+primary-900: #4A214C  /* Primary Dark - headers, footers, main backgrounds */
 ```
 
-### Secondary Colors (Purple)
+### Accent Colors (Orange)
 ```css
-secondary-50:  #faf5ff  /* Very light purple */
-secondary-100: #f3e8ff  /* Light purple */
-secondary-500: #a855f7  /* Main purple */
-secondary-600: #9333ea  /* Dark purple */
-secondary-700: #7c3aed  /* Darker purple */
+accent-50:   #fff5f0  /* Very light orange */
+accent-100:  #ffe6d6  /* Light orange */
+accent-200:  #ffccad  /* Lighter orange */
+accent-300:  #ffad7a  /* Medium light orange */
+accent-400:  #ff8a47  /* Medium orange */
+accent-500:  #FF6B35  /* Accent Orange - buttons, progress bars, highlights */
+accent-600:  #e55a2b  /* Dark orange */
+accent-700:  #cc4921  /* Darker orange */
+accent-800:  #b33817  /* Very dark orange */
+accent-900:  #9a270d  /* Darkest orange */
+```
+
+### Background Colors (Light Cream)
+```css
+background-50:  #fefdfc  /* Very light cream */
+background-100: #fdfbf9  /* Light cream */
+background-200: #fbf7f3  /* Lighter cream */
+background-300: #f8f3ed  /* Medium light cream */
+background-400: #f5efe7  /* Medium cream */
+background-500: #F8F1E9  /* Background Light - cards, content areas */
+background-600: #e8d8c8  /* Dark cream */
+background-700: #d8c0a8  /* Darker cream */
+background-800: #c8a888  /* Very dark cream */
+background-900: #b89068  /* Darkest cream */
+```
+
+### Text Colors
+```css
+text-dark:   #2C2C2C  /* Text Dark - general body text */
+text-light:  #FFFFFF  /* Text Light - text on dark backgrounds */
+text-stroke: #D4C4B5  /* Stroke Light - borders, separators, progress tracks */
 ```
 
 ### Semantic Colors
 - **Success**: Green palette for positive actions
 - **Warning**: Yellow/Orange palette for cautions
 - **Error**: Red palette for errors and destructive actions
-- **Neutral**: Gray palette for text and backgrounds
 
 ## 📝 Typography
 
 ### Heading Scale
 ```typescript
-h1: 'text-3xl md:text-4xl font-bold'     // 30px/36px → 36px/40px
-h2: 'text-2xl md:text-3xl font-bold'     // 24px/32px → 30px/36px
-h3: 'text-xl md:text-2xl font-semibold'  // 20px/28px → 24px/32px
-h4: 'text-lg md:text-xl font-semibold'   // 18px/28px → 20px/28px
-h5: 'text-base md:text-lg font-medium'   // 16px/24px → 18px/28px
+h1: 'text-3xl md:text-4xl font-bold text-text-dark dark:text-text-light'     // 30px/36px → 36px/40px
+h2: 'text-2xl md:text-3xl font-bold text-text-dark dark:text-text-light'     // 24px/32px → 30px/36px
+h3: 'text-xl md:text-2xl font-semibold text-text-dark dark:text-text-light'  // 20px/28px → 24px/32px
+h4: 'text-lg md:text-xl font-semibold text-text-dark dark:text-text-light'   // 18px/28px → 20px/28px
+h5: 'text-base md:text-lg font-medium text-text-dark dark:text-text-light'   // 16px/24px → 18px/28px
 ```
 
 ### Body Text
 ```typescript
-body: 'text-sm md:text-base'             // 14px/20px → 16px/24px
-caption: 'text-xs md:text-sm'            // 12px/16px → 14px/20px
-label: 'text-sm font-medium'             // 14px/20px
+body: 'text-sm md:text-base text-text-dark dark:text-text-light'             // 14px/20px → 16px/24px
+caption: 'text-xs md:text-sm text-text-stroke dark:text-text-stroke'         // 12px/16px → 14px/20px
+label: 'text-sm font-medium text-text-dark dark:text-text-light'             // 14px/20px
 ```
 
 ## 🧩 Components
@@ -75,12 +104,12 @@ label: 'text-sm font-medium'             // 14px/20px
 import Button from '@/components/ui/Button';
 
 // Variants
-<Button variant="primary">Primary Action</Button>
-<Button variant="secondary">Secondary Action</Button>
-<Button variant="success">Success Action</Button>
-<Button variant="warning">Warning Action</Button>
-<Button variant="danger">Danger Action</Button>
-<Button variant="ghost">Ghost Action</Button>
+<Button variant="primary">Primary Action</Button>    // Accent orange gradient
+<Button variant="secondary">Secondary Action</Button> // Primary purple
+<Button variant="success">Success Action</Button>    // Green gradient
+<Button variant="warning">Warning Action</Button>    // Yellow gradient
+<Button variant="danger">Danger Action</Button>      // Red gradient
+<Button variant="ghost">Ghost Action</Button>        // Transparent with hover
 
 // Sizes
 <Button size="sm">Small</Button>
@@ -99,16 +128,16 @@ import Button from '@/components/ui/Button';
 ```tsx
 import Card from '@/components/ui/Card';
 
-<Card variant="interactive">
-  <Card.Header>
-    <Card.Title>Card Title</Card.Title>
-  </Card.Header>
-  <Card.Content>
-    Card content goes here...
-  </Card.Content>
-  <Card.Footer>
-    <Button>Action</Button>
-  </Card.Footer>
+// Base card with background light color
+<Card>
+  <Card.Header>Card Title</Card.Header>
+  <Card.Content>Card content goes here</Card.Content>
+  <Card.Footer>Card footer</Card.Footer>
+</Card>
+
+// Interactive card with hover effects
+<Card interactive>
+  <Card.Content>Clickable card content</Card.Content>
 </Card>
 ```
 
@@ -116,166 +145,106 @@ import Card from '@/components/ui/Card';
 ```tsx
 import Input from '@/components/ui/Input';
 
-<Input
-  label="Email Address"
-  placeholder="Enter your email"
-  error="This field is required"
-  leftIcon={<EmailIcon />}
-/>
+// Base input with background light and stroke borders
+<Input placeholder="Enter your text" />
+
+// Input with validation states
+<Input error="This field is required" />
+<Input success="Great job!" />
+
+// Input with icons
+<Input leftIcon={<SearchIcon />} placeholder="Search..." />
+<Input rightIcon={<EyeIcon />} type="password" />
 ```
 
 ### Badge Component
 ```tsx
 import Badge from '@/components/ui/Badge';
 
-<Badge variant="primary">Primary</Badge>
-<Badge variant="success">Success</Badge>
-<Badge variant="warning">Warning</Badge>
-<Badge variant="error">Error</Badge>
-<Badge variant="neutral">Neutral</Badge>
+// Badge variants
+<Badge variant="primary">Primary</Badge>    // Primary purple
+<Badge variant="accent">Accent</Badge>      // Accent orange
+<Badge variant="success">Success</Badge>    // Green
+<Badge variant="warning">Warning</Badge>    // Yellow
+<Badge variant="error">Error</Badge>        // Red
+<Badge variant="neutral">Neutral</Badge>    // Background cream
 ```
 
-## 📐 Layout System
+## 🎨 Usage Guidelines
 
-### Container
-```tsx
-import Container from '@/components/ui/Container';
+### Color Application
 
-<Container size="lg">  {/* max-w-6xl */}
-  Content goes here
-</Container>
+1. **Primary Dark (#4A214C)**
+   - Headers and navigation bars
+   - Footer sections
+   - Main background sections
+   - Dark mode backgrounds
+
+2. **Accent Orange (#FF6B35)**
+   - Primary action buttons
+   - Progress bars and indicators
+   - Highlighted text and important elements
+   - Call-to-action elements
+
+3. **Background Light (#F8F1E9)**
+   - Card backgrounds
+   - Main content areas
+   - Form input backgrounds
+   - Secondary content sections
+
+4. **Text Colors**
+   - **Text Dark (#2C2C2C)**: General body text, headings
+   - **Text Light (#FFFFFF)**: Text on dark backgrounds
+   - **Stroke Light (#D4C4B5)**: Borders, separators, progress tracks
+
+### Component Usage
+
+- **Buttons**: Use accent orange for primary actions, primary purple for secondary
+- **Cards**: Use background light color with stroke light borders
+- **Inputs**: Background light with stroke light borders, accent orange focus
+- **Badges**: Use semantic colors for status, accent for highlights
+- **Progress**: Use accent orange for progress bars and indicators
+
+### Accessibility
+
+- All color combinations meet WCAG 2.1 AA contrast requirements
+- Focus states use accent orange for visibility
+- Dark mode support with appropriate color inversions
+- High contrast mode support
+
+## 🔧 Implementation
+
+### Tailwind Classes
+
+```css
+/* Primary Colors */
+.bg-primary-900 { background-color: #4A214C; }
+.text-primary-900 { color: #4A214C; }
+
+/* Accent Colors */
+.bg-accent-500 { background-color: #FF6B35; }
+.text-accent-500 { color: #FF6B35; }
+
+/* Background Colors */
+.bg-background-500 { background-color: #F8F1E9; }
+
+/* Text Colors */
+.text-text-dark { color: #2C2C2C; }
+.text-text-light { color: #FFFFFF; }
+.text-text-stroke { color: #D4C4B5; }
 ```
 
-### Grid System
-```tsx
-import Grid from '@/components/ui/Grid';
+### CSS Custom Properties
 
-<Grid cols={3} gap="md">
-  <div>Item 1</div>
-  <div>Item 2</div>
-  <div>Item 3</div>
-</Grid>
+```css
+:root {
+  --color-primary-dark: #4A214C;
+  --color-accent-orange: #FF6B35;
+  --color-background-light: #F8F1E9;
+  --color-text-dark: #2C2C2C;
+  --color-text-light: #FFFFFF;
+  --color-stroke-light: #D4C4B5;
+}
 ```
 
-### Responsive Breakpoints
-- **sm**: 640px and up
-- **md**: 768px and up
-- **lg**: 1024px and up
-- **xl**: 1280px and up
-- **2xl**: 1536px and up
-
-## 🌙 Dark Mode
-
-The design system includes full dark mode support:
-
-```tsx
-// Toggle dark mode
-<html className="dark">
-  <!-- Dark mode styles automatically applied -->
-</html>
-```
-
-All components automatically adapt to dark mode using Tailwind's `dark:` prefix.
-
-## 🎯 Usage Examples
-
-### Goal Card Example
-```tsx
-<Card variant="interactive">
-  <Card.Header>
-    <div className="flex justify-between items-start">
-      <div>
-        <Card.Title>Lose Weight</Card.Title>
-        <p className={getTypography('body')}>
-          Lose 10kg in 3 months
-        </p>
-      </div>
-      <Badge variant="success">Active</Badge>
-    </div>
-  </Card.Header>
-  
-  <Card.Content>
-    <div className="space-y-2">
-      <div className="flex justify-between">
-        <span>Progress</span>
-        <Badge variant="primary" size="sm">75%</Badge>
-      </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
-        <div className="bg-blue-500 h-2 rounded-full w-3/4" />
-      </div>
-    </div>
-  </Card.Content>
-  
-  <Card.Footer>
-    <div className="flex space-x-2">
-      <Button variant="ghost" size="sm">Edit</Button>
-      <Button variant="ghost" size="sm">Delete</Button>
-    </div>
-  </Card.Footer>
-</Card>
-```
-
-### Dashboard Layout Example
-```tsx
-<div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-  <header className="bg-white dark:bg-gray-800 shadow-sm">
-    <Container>
-      <div className="flex justify-between items-center h-16">
-        <h1 className={getTypography('h4')}>FitnessApp</h1>
-        <Button variant="secondary" size="sm">Sign Out</Button>
-      </div>
-    </Container>
-  </header>
-  
-  <main>
-    <Container className="py-8">
-      <Grid cols={3} gap="lg">
-        <Card>Goal 1</Card>
-        <Card>Goal 2</Card>
-        <Card>Goal 3</Card>
-      </Grid>
-    </Container>
-  </main>
-</div>
-```
-
-## 🚀 Implementation
-
-The design system is implemented using:
-
-1. **Design System Configuration** (`/src/styles/design-system.ts`)
-2. **UI Components** (`/src/components/ui/`)
-3. **Tailwind Configuration** (`tailwind.config.js`)
-4. **Global Styles** (`/src/index.css`)
-
-## 📱 Responsive Design
-
-All components are mobile-first and responsive:
-- Typography scales appropriately
-- Components adapt to screen size
-- Touch-friendly interaction areas
-- Optimized for both desktop and mobile
-
-## ♿ Accessibility
-
-The design system follows accessibility best practices:
-- Proper color contrast ratios
-- Keyboard navigation support
-- Screen reader compatibility
-- Focus indicators
-- ARIA labels where needed
-
-## 🎨 Customization
-
-To customize the design system:
-
-1. Update colors in `tailwind.config.js`
-2. Modify component variants in `design-system.ts`
-3. Add new components in `/src/components/ui/`
-4. Update global styles in `index.css`
-
----
-
-**Live Demo**: https://fitness-app-bupe-staging.web.app
-
-The design system ensures a consistent, professional, and accessible user experience across the entire FitnessApp.
+This design system ensures a consistent, accessible, and visually appealing user experience across the FitnessApp platform.

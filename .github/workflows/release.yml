@@ -1,0 +1,106 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: '8'
+        
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        
+    - name: Setup pnpm cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+          
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      
+    - name: Build application
+      run: pnpm build
+      
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+        body: |
+          ## 🚀 FitnessApp Release ${{ github.ref }}
+          
+          ### What's New
+          - Progress tracking system with BMI calculation
+          - Full-screen responsive design
+          - Enhanced dashboard with goal management
+          - Comprehensive CI/CD pipeline
+          
+          ### Technical Improvements
+          - Updated to use pnpm for faster builds
+          - Enhanced security scanning
+          - Automated testing and quality checks
+          - Bundle size optimization
+          
+          ### Deployment
+          - **Staging**: https://fitness-app-bupe-staging.web.app
+          - **Production**: Coming soon
+          
+          ### Installation
+          ```bash
+          git clone https://github.com/BUPE-NONDO/FitnessApp.git
+          cd FitnessApp
+          pnpm install
+          pnpm dev
+          ```
+          
+          ### Development
+          ```bash
+          pnpm build          # Build for production
+          pnpm test          # Run tests
+          pnpm lint          # Run linting
+          pnpm emulators     # Start Firebase emulators
+          ```
+          
+          ### Contributing
+          Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+          
+          ### License
+          This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+          
+          ---
+          
+          **Built with ❤️ by BUPE-NONDO**
+        
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./apps/web/dist
+        asset_name: fitness-app-${{ github.ref }}.zip
+        asset_content_type: application/zip

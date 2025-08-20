@@ -82,7 +82,7 @@ export function WelcomeOnboarding({
 
   // Show welcome screen
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-gradient-to-br from-purple-900/80 to-purple-800/80 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="relative bg-gradient-to-br from-purple-500 to-primary-600 text-white p-8 rounded-t-2xl overflow-hidden">

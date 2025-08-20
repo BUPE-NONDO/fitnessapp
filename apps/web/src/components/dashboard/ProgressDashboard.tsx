@@ -7,6 +7,9 @@ import { DailyProgressTracker } from '@/components/progress/DailyProgressTracker
 import { WeeklyProgressTracker } from '@/components/progress/WeeklyProgressTracker';
 import { EnhancedBadgeSystem } from '@/components/badges/EnhancedBadgeSystem';
 import { WorkoutPlanDisplay } from './WorkoutPlanDisplay';
+import { TodaysGoal } from './TodaysGoal';
+import { WeeklyGoals } from './WeeklyGoals';
+import { GoalStats } from './GoalStats';
 import { cn } from '@/lib/utils';
 
 interface ProgressDashboardProps {
@@ -41,6 +44,7 @@ export function ProgressDashboard({ className = '' }: ProgressDashboardProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'daily' | 'weekly' | 'badges'>('overview');
   const [progressStats, setProgressStats] = useState<ProgressStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
   const [stats, setStats] = useState<DashboardStats>({
     currentStreak: 0,
     longestStreak: 0,
@@ -55,6 +59,22 @@ export function ProgressDashboard({ className = '' }: ProgressDashboardProps) {
   useEffect(() => {
     loadProgressStats();
   }, [user, userProfile]);
+
+  // Check for onboarding completion and show welcome message
+  useEffect(() => {
+    const checkOnboardingCompletion = () => {
+      const justCompleted = localStorage.getItem('onboarding-just-completed');
+      if (justCompleted === 'true') {
+        setShowWelcomeMessage(true);
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          setShowWelcomeMessage(false);
+        }, 5000);
+      }
+    };
+
+    checkOnboardingCompletion();
+  }, []);
 
   const loadProgressStats = async () => {
     if (!user || !userProfile) return;
@@ -385,9 +405,41 @@ export function ProgressDashboard({ className = '' }: ProgressDashboardProps) {
         </div>
       </div>
 
+      {/* Daily Goals Section */}
+      <div className="grid lg:grid-cols-2 gap-6 mb-8">
+        <TodaysGoal />
+        <WeeklyGoals />
+      </div>
+
+
+      {/* Goal Stats Section */}
+      <GoalStats className="mb-8" />
+
       {/* Workout Plan Section */}
       <WorkoutPlanDisplay />
 
+
+      {/* Recent Badges Section */}
+      <div className="mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              🏆 Recent Achievements
+            </h3>
+            <button 
+              onClick={() => setActiveTab("badges")}
+              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+            >
+              View All Badges →
+            </button>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <EnhancedBadgeSystem showProgress={false} />
+          </div>
+        </div>
+      </div>
+
+      {/* Debug Section - Remove in production */}
       {/* Progress Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Weekly Progress */}
@@ -474,6 +526,30 @@ export function ProgressDashboard({ className = '' }: ProgressDashboardProps) {
 
   return (
     <div className={cn('space-y-6', className)}>
+      {/* Welcome Message for New Users */}
+      {showWelcomeMessage && (
+        <div className="bg-gradient-to-r from-green-500 to-blue-600 rounded-xl p-6 text-white shadow-lg animate-fade-in">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold mb-2">
+                🎉 Welcome to Your Fitness Journey!
+              </h2>
+              <p className="text-green-100">
+                Your personalized workout plan and daily goals are ready! Start with today's goal below.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowWelcomeMessage(false)}
+              className="text-white/80 hover:text-white transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">

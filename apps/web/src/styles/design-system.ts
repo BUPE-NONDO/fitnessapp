@@ -2,22 +2,54 @@
 // Consistent UI/UX patterns using Tailwind CSS
 
 export const designSystem = {
-  // Color Palette
+  // Color Palette - Fitness App Theme
   colors: {
     primary: {
-      50: 'bg-purple-50',
-      100: 'bg-purple-100',
-      500: 'bg-purple-500',
-      600: 'bg-purple-600',
-      700: 'bg-purple-700',
-      900: 'bg-purple-900',
-    },
-    secondary: {
+      // Primary Dark: #4A214C - Used for headers, footers, and main background sections
       50: 'bg-primary-50',
       100: 'bg-primary-100',
+      200: 'bg-primary-200',
+      300: 'bg-primary-300',
+      400: 'bg-primary-400',
       500: 'bg-primary-500',
       600: 'bg-primary-600',
       700: 'bg-primary-700',
+      800: 'bg-primary-800',
+      900: 'bg-primary-900',
+    },
+    accent: {
+      // Accent Orange: #FF6B35 - Used for interactive elements like buttons, progress bars, and highlighted text
+      50: 'bg-accent-50',
+      100: 'bg-accent-100',
+      200: 'bg-accent-200',
+      300: 'bg-accent-300',
+      400: 'bg-accent-400',
+      500: 'bg-accent-500',
+      600: 'bg-accent-600',
+      700: 'bg-accent-700',
+      800: 'bg-accent-800',
+      900: 'bg-accent-900',
+    },
+    background: {
+      // Background Light: #F8F1E9 - Used for card backgrounds and main content areas
+      50: 'bg-background-50',
+      100: 'bg-background-100',
+      200: 'bg-background-200',
+      300: 'bg-background-300',
+      400: 'bg-background-400',
+      500: 'bg-background-500',
+      600: 'bg-background-600',
+      700: 'bg-background-700',
+      800: 'bg-background-800',
+      900: 'bg-background-900',
+    },
+    text: {
+      // Text Dark: #2C2C2C - Used for general body text
+      dark: 'text-text-dark',
+      // Text Light: #FFFFFF - Used for text on dark backgrounds
+      light: 'text-text-light',
+      // Stroke Light: #D4C4B5 - Used for subtle borders, separators, or progress bar tracks
+      stroke: 'text-text-stroke',
     },
     success: {
       50: 'bg-green-50',
@@ -38,30 +70,18 @@ export const designSystem = {
       500: 'bg-red-500',
       600: 'bg-red-600',
     },
-    neutral: {
-      50: 'bg-gray-50',
-      100: 'bg-gray-100',
-      200: 'bg-gray-200',
-      300: 'bg-gray-300',
-      400: 'bg-gray-400',
-      500: 'bg-gray-500',
-      600: 'bg-gray-600',
-      700: 'bg-gray-700',
-      800: 'bg-gray-800',
-      900: 'bg-gray-900',
-    },
   },
 
-  // Typography
+  // Typography - Updated with new color scheme
   typography: {
-    h1: 'text-3xl md:text-4xl font-bold text-gray-900 dark:text-white',
-    h2: 'text-2xl md:text-3xl font-bold text-gray-900 dark:text-white',
-    h3: 'text-xl md:text-2xl font-semibold text-gray-900 dark:text-white',
-    h4: 'text-lg md:text-xl font-semibold text-gray-800 dark:text-gray-100',
-    h5: 'text-base md:text-lg font-medium text-gray-800 dark:text-gray-100',
-    body: 'text-sm md:text-base text-gray-700 dark:text-gray-300',
-    caption: 'text-xs md:text-sm text-gray-600 dark:text-gray-400',
-    label: 'text-sm font-medium text-gray-700 dark:text-gray-300',
+    h1: 'text-3xl md:text-4xl font-bold text-text-dark dark:text-text-light',
+    h2: 'text-2xl md:text-3xl font-bold text-text-dark dark:text-text-light',
+    h3: 'text-xl md:text-2xl font-semibold text-text-dark dark:text-text-light',
+    h4: 'text-lg md:text-xl font-semibold text-text-dark dark:text-text-light',
+    h5: 'text-base md:text-lg font-medium text-text-dark dark:text-text-light',
+    body: 'text-sm md:text-base text-text-dark dark:text-text-light',
+    caption: 'text-xs md:text-sm text-text-stroke dark:text-text-stroke',
+    label: 'text-sm font-medium text-text-dark dark:text-text-light',
   },
 
   // Spacing
@@ -77,8 +97,8 @@ export const designSystem = {
   // Borders & Radius (Circle-focused)
   borders: {
     none: 'border-0',
-    thin: 'border border-gray-200 dark:border-gray-700',
-    thick: 'border-2 border-gray-300 dark:border-gray-600',
+    thin: 'border border-text-stroke dark:border-text-stroke',
+    thick: 'border-2 border-text-stroke dark:border-text-stroke',
     radius: {
       sm: 'rounded-xl',
       md: 'rounded-2xl',
@@ -88,41 +108,44 @@ export const designSystem = {
     },
   },
 
-  // Shadows
+  // Shadows - Updated with new color scheme
   shadows: {
     sm: 'shadow-sm',
     md: 'shadow-md',
     lg: 'shadow-lg',
     xl: 'shadow-xl',
     inner: 'shadow-inner',
+    accent: 'shadow-lg shadow-accent-500/20',
+    primary: 'shadow-lg shadow-primary-500/20',
   },
 
-  // Component Variants
+  // Component Variants - Updated with new color scheme
   components: {
     card: {
-      base: 'bg-white dark:bg-gray-800 rounded-2xl shadow-circle border border-gray-200 dark:border-gray-700',
+      base: 'bg-background-500 dark:bg-primary-900 rounded-2xl shadow-circle border border-text-stroke dark:border-text-stroke',
       hover: 'hover:shadow-circle-lg transition-all duration-200',
       interactive: 'cursor-pointer hover:shadow-circle-lg hover:scale-[1.02] transition-all duration-200',
     },
     button: {
-      primary: 'bg-gradient-to-r from-purple-500 to-primary-600 hover:from-purple-600 hover:to-primary-700 text-white font-medium px-6 py-3 rounded-2xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 shadow-circle hover:shadow-circle-lg transform hover:scale-105',
-      secondary: 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle',
-      success: 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle hover:shadow-circle-lg transform hover:scale-105',
-      warning: 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle hover:shadow-circle-lg transform hover:scale-105',
-      danger: 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle hover:shadow-circle-lg transform hover:scale-105',
-      ghost: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle',
+      primary: 'bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-text-light font-medium px-6 py-3 rounded-2xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 shadow-accent hover:shadow-accent-lg transform hover:scale-105',
+      secondary: 'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-text-dark dark:text-text-light font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle',
+      success: 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-text-light font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle hover:shadow-circle-lg transform hover:scale-105',
+      warning: 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-text-light font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle hover:shadow-circle-lg transform hover:scale-105',
+      danger: 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-text-light font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle hover:shadow-circle-lg transform hover:scale-105',
+      ghost: 'text-text-dark dark:text-text-light hover:bg-background-100 dark:hover:bg-primary-800 font-medium px-6 py-3 rounded-2xl transition-all duration-200 shadow-circle',
     },
     input: {
-      base: 'w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 shadow-circle',
+      base: 'w-full px-4 py-3 border border-text-stroke dark:border-text-stroke rounded-2xl bg-background-500 dark:bg-primary-900 text-text-dark dark:text-text-light placeholder-text-stroke dark:placeholder-text-stroke focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 shadow-circle',
       error: 'border-red-500 focus:ring-red-500',
       success: 'border-green-500 focus:ring-green-500',
     },
     badge: {
-      primary: 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      primary: 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-900 dark:bg-primary-800 dark:text-primary-100',
+      accent: 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent-100 text-accent-900 dark:bg-accent-800 dark:text-accent-100',
       success: 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
       warning: 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
       error: 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-      neutral: 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+      neutral: 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-background-200 text-text-dark dark:bg-primary-700 dark:text-text-light',
     },
   },
 
@@ -182,5 +205,7 @@ export const getSpacing = (size: keyof typeof designSystem.spacing) => {
 };
 
 export const getColor = (color: keyof typeof designSystem.colors, shade: string) => {
-  return designSystem.colors[color]?.[shade as keyof typeof designSystem.colors[typeof color]] || '';
+  const colorObj = designSystem.colors[color];
+  if (!colorObj || typeof colorObj !== 'object') return '';
+  return (colorObj as any)[shade] || '';
 };

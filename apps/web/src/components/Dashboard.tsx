@@ -1,28 +1,19 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { useHealthCheck, useGoals } from '@/hooks/useTRPC';
 import { useOnboarding } from '@/hooks/useOnboarding';
 import { AdminAuthService } from '@/services/adminAuthService';
-import { GoalsList } from './GoalsList';
-import { ActivityLogsList } from './ActivityLogsList';
-import { ProgressDashboard } from './dashboard/ProgressDashboard';
-import { UserProfile } from './UserProfile';
-import { BadgeSystem } from './BadgeSystem';
+import { CleanDashboard } from './dashboard/CleanDashboard';
+import { DashboardNavigation } from './dashboard/DashboardNavigation';
+import { GoalsPage } from './goals/GoalsPage';
+import { ProgressTrackingPage } from './progress/ProgressTrackingPage';
 import { OnboardingWizard } from './onboarding/OnboardingWizard';
-import { WorkoutRoutineComponent } from './workout/WorkoutRoutine';
-import { DailyCheckIn } from './workout/DailyCheckIn';
 import { WorkoutPlanDebug } from './debug/WorkoutPlanDebug';
+import { WorkoutPlanTest } from './debug/WorkoutPlanTest';
+import { OnboardingIntegrationTest } from './debug/OnboardingIntegrationTest';
 import { CompleteDataReset } from './admin/CompleteDataReset';
-import { Icon } from './ui/Icon';
-import { ThemeToggle } from '@/contexts/ThemeContext';
-import Container from './ui/Container';
-import Button from './ui/Button';
-import { cn, getTypography } from '@/styles/design-system';
 
 export function Dashboard() {
   const { user, logout } = useAuth();
-  const healthCheck = useHealthCheck();
-  const goals = useGoals();
   const {
     isOnboardingRequired,
     isOnboardingOpen,
@@ -31,7 +22,7 @@ export function Dashboard() {
     triggerOnboarding,
   } = useOnboarding();
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'workout' | 'checkin' | 'goals' | 'logs' | 'badges' | 'profile' | 'debug'>('overview'); // Start with overview tab
+  const [activeTab, setActiveTab] = useState<'overview' | 'workouts' | 'goals' | 'progress' | 'achievements' | 'debug'>('overview');
   const [isAdmin, setIsAdmin] = useState(false);
 
   // Check if user is admin
@@ -69,139 +60,139 @@ export function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <Container>
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">F</span>
+    <div className="min-h-screen bg-background-dark font-sans" style={{ background: 'var(--gradient-background)' }}>
+      {/* Professional Header */}
+              <header className="bg-primary-dark/95 backdrop-blur-sm border-b border-stroke-medium shadow-fitness-md">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+          <div className="flex justify-between items-center h-14 sm:h-16">
+            {/* Logo and Title */}
+            <div className="flex items-center space-x-2 sm:space-x-4">
+                              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent-orange rounded-full flex items-center justify-center shadow-fitness-lg">
+                  <div className="w-4 h-4 sm:w-6 sm:h-6 bg-text-light rounded-full"></div>
+                </div>
+              <div>
+                <h1 className="text-lg sm:text-xl font-semibold text-text-light tracking-tight">
+                  FitnessTracker
+                </h1>
+                <p className="text-xs text-accent-orange font-medium">
+                  Professional Fitness Management
+                </p>
               </div>
-              <h1 className={cn(getTypography('h4'), 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent')}>
-                FitnessApp
-              </h1>
             </div>
 
-            <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+            {/* User Info and Actions */}
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <div className="hidden sm:flex items-center space-x-2 sm:space-x-3">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-accent-orange rounded-full flex items-center justify-center">
+                  <span className="text-text-light text-xs sm:text-sm font-semibold">
                     {(user?.displayName || user?.email || 'U').charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <span className={getTypography('body')}>
-                  Welcome, {user?.displayName || user?.email?.split('@')[0] || 'User'}!
-                </span>
-              </div>
-
-              {/* Theme Toggle */}
-              <ThemeToggle size="md" />
-
-              {/* Admin Access Button */}
-              {isAdmin && (
-                <button
-                  onClick={() => window.location.href = '/admin'}
-                  className="flex items-center space-x-2 px-3 py-2 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-800/40 text-red-700 dark:text-red-400 rounded-lg transition-colors duration-200"
-                  title="Access Admin Portal"
-                >
-                  <Icon name="shield" size={16} />
-                  <span className="hidden sm:inline text-sm font-medium">Admin</span>
-                </button>
-              )}
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={logout}
-                rightIcon={
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                }
-              >
-                Sign Out
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </header>
-
-      {/* Navigation Tabs */}
-      <nav className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <Container>
-          <div className="flex space-x-1 overflow-x-auto">
-            {[
-              { id: 'overview', label: 'Overview', icon: '📊' },
-              { id: 'workout', label: 'Workout', icon: '🏋️' },
-              { id: 'checkin', label: 'Check-in', icon: '✅' },
-              { id: 'goals', label: 'Goals', icon: '🎯' },
-              { id: 'logs', label: 'Activity Logs', icon: '📝' },
-              { id: 'badges', label: 'Achievements', icon: '🏆' },
-              { id: 'profile', label: 'Profile', icon: '👤' },
-              { id: 'debug', label: 'Debug', icon: '🧪' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={cn(
-                  'flex items-center space-x-2 py-4 px-4 border-b-2 font-medium text-sm transition-colors duration-200 whitespace-nowrap',
-                  activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                )}
-              >
-                <span className="text-base">{tab.icon}</span>
-                <span className="hidden sm:inline">{tab.label}</span>
-              </button>
-            ))}
-          </div>
-        </Container>
-      </nav>
-
-      {/* Main Content */}
-      <main className="flex-1">
-        <Container className="py-8">
-          <div className="space-y-6">
-            {/* Welcome Banner for New Users */}
-            {isOnboardingRequired && (
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mb-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="text-4xl">🎯</div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        Complete Your Personalized Setup
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mt-1">
-                        Take our 1-minute quiz to get a personalized fitness plan tailored just for you!
-                      </p>
-                    </div>
-                  </div>
-                  <Button
-                    onClick={triggerOnboarding}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-xl"
-                  >
-                    🚀 Start Quiz
-                  </Button>
+                <div className="text-right">
+                  <p className="text-xs sm:text-sm font-medium text-text-light">
+                    {user?.displayName || user?.email?.split('@')[0] || 'User'}
+                  </p>
+                  <p className="text-xs text-accent-orange">Active Member</p>
                 </div>
               </div>
-            )}
 
-            {activeTab === 'overview' && <ProgressDashboard />}
-            {activeTab === 'workout' && <WorkoutRoutineComponent />}
-            {activeTab === 'checkin' && <DailyCheckIn />}
-            {activeTab === 'goals' && <GoalsList />}
-            {activeTab === 'logs' && <ActivityLogsList />}
-            {activeTab === 'badges' && <BadgeSystem />}
-            {activeTab === 'profile' && <UserProfile />}
-            {activeTab === 'debug' && (
-              <div className="space-y-8">
-                <WorkoutPlanDebug />
-                <CompleteDataReset />
-              </div>
-            )}
+              {/* Admin Access */}
+              {isAdmin && (
+                <button
+                  onClick={() => setActiveTab(activeTab === 'debug' ? 'overview' : 'debug')}
+                  className="px-2 sm:px-3 py-1 sm:py-2 bg-accent-orange hover-bg-accent-orange-dark text-text-light rounded-lg transition-colors text-xs sm:text-sm font-medium"
+                >
+                  {activeTab === 'debug' ? 'Dashboard' : 'Admin'}
+                </button>
+              )}
+
+              {/* Logout */}
+              <button
+                onClick={logout}
+                className="px-3 sm:px-4 py-1 sm:py-2 bg-accent-orange hover-bg-accent-orange-dark text-text-light rounded-lg transition-colors text-xs sm:text-sm font-medium shadow-fitness-sm"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
-        </Container>
+        </div>
+      </header>
+
+      <main className="flex-1">
+        <div className="h-full">
+          {/* Welcome Banner for New Users */}
+          {isOnboardingRequired && (
+            <div className="bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-200 rounded-xl p-6 mb-8 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 bg-white rounded-full"></div>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Complete Your Fitness Profile
+                    </h3>
+                    <p className="text-gray-600 mt-1">
+                      Set up your personalized workout plan in just 2 minutes
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={triggerOnboarding}
+                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors shadow-sm"
+                >
+                  Get Started
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Main Dashboard Content */}
+          {activeTab !== 'debug' && activeTab !== 'progress' && (
+            <div className="space-y-6 py-4 sm:py-6 lg:py-8 px-3 sm:px-4 lg:px-6 xl:px-8">
+              {/* Navigation */}
+              <DashboardNavigation 
+                activeTab={activeTab} 
+                onTabChange={setActiveTab}
+              />
+              
+              {/* Content based on active tab */}
+              {activeTab === 'overview' && <CleanDashboard />}
+              {activeTab === 'workouts' && (
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Workouts</h2>
+                  <p className="text-gray-600">Workout tracking and logging features coming soon...</p>
+                </div>
+              )}
+              {activeTab === 'goals' && <GoalsPage />}
+              {activeTab === 'progress' && <ProgressTrackingPage />}
+              {activeTab === 'achievements' && (
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Achievements</h2>
+                  <p className="text-gray-600">Badges and milestone tracking coming soon...</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Admin/Debug Section */}
+          {activeTab === 'debug' && (
+            <div className="space-y-6 py-4 sm:py-6 lg:py-8 px-3 sm:px-4 lg:px-6 xl:px-8">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                  <h2 className="text-lg font-semibold text-gray-900">Admin Tools</h2>
+                  <p className="text-sm text-gray-600 mt-1">Development and testing utilities</p>
+                </div>
+                <div className="p-6 space-y-6">
+                  <OnboardingIntegrationTest />
+                  <WorkoutPlanTest />
+                  <WorkoutPlanDebug />
+                  <CompleteDataReset />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

@@ -8,29 +8,53 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Fitness App Color Palette
         primary: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4fe',
-          400: '#c084fc',
-          500: '#a855f7',
-          600: '#9333ea',
-          700: '#7c3aed',
-          800: '#6b21a8',
-          900: '#581c87',
+          // Primary Dark: #4A214C - Used for headers, footers, and main background sections
+          50: '#f8f5f8',
+          100: '#f0e8f0',
+          200: '#e1d1e1',
+          300: '#c8a8c8',
+          400: '#a87aa8',
+          500: '#8a4c8a',
+          600: '#7a3c7a',
+          700: '#6a2c6a',
+          800: '#5a1c5a',
+          900: '#4A214C', // Primary Dark
         },
-        secondary: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4fe',
-          400: '#c084fc',
-          500: '#a855f7',
-          600: '#9333ea',
-          700: '#7c3aed',
-          800: '#6b21a8',
-          900: '#581c87',
+        accent: {
+          // Accent Orange: #FF6B35 - Used for interactive elements like buttons, progress bars, and highlighted text
+          50: '#fff5f0',
+          100: '#ffe6d6',
+          200: '#ffccad',
+          300: '#ffad7a',
+          400: '#ff8a47',
+          500: '#FF6B35', // Accent Orange
+          600: '#e55a2b',
+          700: '#cc4921',
+          800: '#b33817',
+          900: '#9a270d',
+        },
+        background: {
+          // Background Light: #F8F1E9 - Used for card backgrounds and main content areas
+          50: '#fefdfc',
+          100: '#fdfbf9',
+          200: '#fbf7f3',
+          300: '#f8f3ed',
+          400: '#f5efe7',
+          500: '#F8F1E9', // Background Light
+          600: '#e8d8c8',
+          700: '#d8c0a8',
+          800: '#c8a888',
+          900: '#b89068',
+        },
+        text: {
+          // Text Dark: #2C2C2C - Used for general body text
+          dark: '#2C2C2C',
+          // Text Light: #FFFFFF - Used for text on dark backgrounds
+          light: '#FFFFFF',
+          // Stroke Light: #D4C4B5 - Used for subtle borders, separators, or progress bar tracks
+          stroke: '#D4C4B5',
         },
         success: {
           50: '#f0fdf4',

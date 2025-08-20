@@ -1,40 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '@/hooks/useUser';
-
-interface WorkoutPlan {
-  title: string;
-  description: string;
-  workoutsPerWeek: number;
-  duration: string;
-  focus: string;
-  difficulty: string;
-  estimatedDuration: string;
-  exercises: Array<{
-    name: string;
-    sets: string;
-    reps: string;
-    muscle: string;
-  }>;
-}
+import { useUserWorkoutPlan } from '@/hooks/useUserWorkoutPlan';
+import { useOnboarding } from '@/hooks/useOnboarding';
+import { WorkoutPlan } from '@/services/userWorkoutPlanService';
 
 interface WorkoutPlanDisplayProps {
   className?: string;
 }
 
 export function WorkoutPlanDisplay({ className = '' }: WorkoutPlanDisplayProps) {
-  const { userProfile } = useUser();
-  const [workoutPlan, setWorkoutPlan] = useState<WorkoutPlan | null>(null);
+  const { currentPlan, isLoading, hasWorkoutPlan, refreshPlans } = useUserWorkoutPlan();
+  const { triggerOnboarding } = useOnboarding();
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [isWorkoutStarted, setIsWorkoutStarted] = useState(false);
+  const [currentDayIndex, setCurrentDayIndex] = useState(0);
 
-  useEffect(() => {
-    // Get workout plan from user profile
-    if (userProfile?.onboardingData?.workoutPlan) {
-      setWorkoutPlan(userProfile.onboardingData.workoutPlan);
-    } else if (userProfile?.generatedPlan) {
-      setWorkoutPlan(userProfile.generatedPlan);
-    }
-  }, [userProfile]);
+  // Get today's workout
+  const todaysWorkout = currentPlan?.weeklySchedule?.[currentDayIndex];
+  const todaysExercises = todaysWorkout?.exercises || [];
 
   const handleStartWorkout = () => {
     setIsWorkoutStarted(true);
@@ -42,7 +24,7 @@ export function WorkoutPlanDisplay({ className = '' }: WorkoutPlanDisplayProps) 
   };
 
   const handleNextExercise = () => {
-    if (workoutPlan && currentExerciseIndex < workoutPlan.exercises.length - 1) {
+    if (todaysExercises && currentExerciseIndex < todaysExercises.length - 1) {
       setCurrentExerciseIndex(currentExerciseIndex + 1);
     } else {
       // Workout completed
@@ -63,7 +45,25 @@ export function WorkoutPlanDisplay({ className = '' }: WorkoutPlanDisplayProps) 
     setCurrentExerciseIndex(0);
   };
 
-  if (!workoutPlan) {
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            Loading Your Workout Plan...
+          </h3>
+          <p className="text-gray-600 dark:text-gray-300">
+            Please wait while we fetch your personalized workout plan.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // No workout plan state
+  if (!hasWorkoutPlan || !currentPlan) {
     return (
       <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
         <div className="text-center">
@@ -72,19 +72,38 @@ export function WorkoutPlanDisplay({ className = '' }: WorkoutPlanDisplayProps) 
             No Workout Plan Available
           </h3>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            Complete your onboarding to get a personalized workout plan.
+            Complete your onboarding to get a personalized workout plan tailored to your goals.
           </p>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+          <button
+            onClick={triggerOnboarding}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+          >
             Start Onboarding
+          </button>
+          <button
+            onClick={() => {
+              console.log("🔄 Refreshing workout plans...");
+              refreshPlans();
+            }}
+            className="ml-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+          >
+            🔄 Refresh
+          </button>
+          <button
+            onClick={async () => {
+              alert("Debug info logged to console");
+            }}
+            className="ml-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+          >
           </button>
         </div>
       </div>
     );
   }
 
-  if (isWorkoutStarted) {
-    const currentExercise = workoutPlan.exercises[currentExerciseIndex];
-    const progress = ((currentExerciseIndex + 1) / workoutPlan.exercises.length) * 100;
+  if (isWorkoutStarted && todaysExercises.length > 0) {
+    const currentExercise = todaysExercises[currentExerciseIndex];
+    const progress = ((currentExerciseIndex + 1) / todaysExercises.length) * 100;
 
     return (
       <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
@@ -95,7 +114,7 @@ export function WorkoutPlanDisplay({ className = '' }: WorkoutPlanDisplayProps) 
               Workout in Progress
             </h3>
             <p className="text-gray-600 dark:text-gray-300">
-              Exercise {currentExerciseIndex + 1} of {workoutPlan.exercises.length}
+              Exercise {currentExerciseIndex + 1} of {todaysExercises.length}
             </p>
           </div>
           <button
@@ -170,10 +189,10 @@ export function WorkoutPlanDisplay({ className = '' }: WorkoutPlanDisplayProps) 
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-            {workoutPlan.title}
+            {currentPlan.title}
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            {workoutPlan.description}
+            {currentPlan.description}
           </p>
         </div>
         <div className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 px-3 py-1 rounded-full text-sm font-medium">
@@ -185,48 +204,72 @@ export function WorkoutPlanDisplay({ className = '' }: WorkoutPlanDisplayProps) 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="text-center bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-4">
           <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {workoutPlan.workoutsPerWeek}
+            {currentPlan.workoutsPerWeek}
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400">per week</div>
         </div>
         <div className="text-center bg-primary-50 dark:bg-primary-900/20 rounded-2xl p-4">
           <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-            {workoutPlan.duration}
+            {currentPlan.duration} weeks
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400">duration</div>
         </div>
         <div className="text-center bg-accent-50 dark:bg-accent-900/20 rounded-2xl p-4">
           <div className="text-2xl font-bold text-accent-600 dark:text-accent-400 capitalize">
-            {workoutPlan.difficulty}
+            {currentPlan.fitnessLevel}
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400">difficulty</div>
         </div>
         <div className="text-center bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-4">
           <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-            {workoutPlan.exercises.length}
+            {todaysExercises.length}
           </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">exercises</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">today's exercises</div>
         </div>
       </div>
 
+      {/* Day Selector */}
+      {currentPlan.weeklySchedule && currentPlan.weeklySchedule.length > 1 && (
+        <div className="mb-6">
+          <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Select Workout Day</h4>
+          <div className="flex flex-wrap gap-2">
+            {currentPlan.weeklySchedule.map((day, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentDayIndex(index)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  currentDayIndex === index
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                {day.dayOfWeek}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Exercise Preview */}
       <div className="mb-6">
-        <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Today's Exercises</h4>
+        <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
+          {todaysWorkout ? `${todaysWorkout.name} - ${todaysWorkout.dayOfWeek}` : "Today's Exercises"}
+        </h4>
         <div className="space-y-2 max-h-48 overflow-y-auto">
-          {workoutPlan.exercises.slice(0, 6).map((exercise, index) => (
+          {todaysExercises.slice(0, 6).map((exercise, index) => (
             <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
               <div>
                 <div className="font-medium text-gray-900 dark:text-white">{exercise.name}</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">{exercise.muscle}</div>
               </div>
               <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                {exercise.sets} × {exercise.reps}
+                {exercise.sets} sets × {exercise.reps}
               </div>
             </div>
           ))}
-          {workoutPlan.exercises.length > 6 && (
+          {todaysExercises.length > 6 && (
             <div className="text-center text-sm text-gray-500 dark:text-gray-400 py-2">
-              +{workoutPlan.exercises.length - 6} more exercises
+              +{todaysExercises.length - 6} more exercises
             </div>
           )}
         </div>
@@ -235,8 +278,23 @@ export function WorkoutPlanDisplay({ className = '' }: WorkoutPlanDisplayProps) 
       {/* Action Buttons */}
       <div className="flex space-x-3">
         <button
-          onClick={handleStartWorkout}
-          className="flex-1 bg-gradient-to-r from-purple-500 to-primary-600 hover:from-purple-600 hover:to-primary-700 text-white font-semibold py-3 px-6 rounded-2xl transition-colors shadow-circle hover:shadow-circle-lg transform hover:scale-105"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Start Workout clicked!");
+            handleStartWorkout();
+          }}
+          className="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-200 shadow-circle hover:shadow-circle-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 cursor-pointer"
+          style={{ 
+            pointerEvents: "auto !important",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            MozUserSelect: "none",
+            msUserSelect: "none",
+            position: "relative",
+            zIndex: 50
+          }}
+          type="button"
         >
           🚀 Start Workout
         </button>

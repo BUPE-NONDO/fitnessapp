@@ -9,21 +9,30 @@
     "test": "turbo run test",
     "test:coverage": "turbo run test:coverage",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean",
     "deploy": "turbo run deploy",
     "deploy:prod": "turbo run deploy:prod",
-    "seed": "pnpm --filter @aurafit/seeding seed"
+    "seed": "pnpm --filter @aurafit/seeding seed",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
     "turbo": "^1.11.0",
     "typescript": "^5.3.3",
     "prettier": "^3.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.9",
     "eslint": "^8.55.0",
     "@typescript-eslint/eslint-plugin": "^6.13.0",
     "@typescript-eslint/parser": "^6.13.0",
-    "eslint-plugin-perfectionist": "^1.0.0"
+    "eslint-plugin-perfectionist": "^1.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
   },
   "packageManager": "pnpm@8.15.0",
   "engines": {
@@ -34,5 +43,14 @@
     "apps/*",
     "packages/*",
     "functions"
-  ]
+  ],
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
 }

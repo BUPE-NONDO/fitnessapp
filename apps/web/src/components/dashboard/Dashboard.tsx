@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Dashboard() {
   const { currentUser, signOutUser } = useAuth();
@@ -70,7 +70,10 @@ export default function Dashboard() {
                 Quick Actions
               </h3>
               <div className="space-y-3">
-                <button className="w-full btn-primary">
+                <Link to="/exercises" className="w-full btn-primary block text-center">
+                  📚 Exercise Library
+                </Link>
+                <button className="w-full btn-secondary">
                   🏋️ Start Workout
                 </button>
                 <button className="w-full btn-secondary">
@@ -92,7 +95,7 @@ export default function Dashboard() {
               </h3>
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex items-center">
-                  <span className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
                   Exercise Library
                 </div>
                 <div className="flex items-center">

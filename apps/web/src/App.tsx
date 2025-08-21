@@ -8,6 +8,7 @@ import SignUp from './components/auth/SignUp';
 import Dashboard from './components/dashboard/Dashboard';
 import ExerciseLibrary from './components/exercises/ExerciseLibrary';
 import WorkoutLibrary from './components/workouts/WorkoutLibrary';
+import FoodDatabase from './components/nutrition/FoodDatabase';
 import './index.css';
 
 // Create a client
@@ -55,6 +56,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <WorkoutLibrary />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/nutrition" 
+                element={
+                  <ProtectedRoute>
+                    <FoodDatabase />
                   </ProtectedRoute>
                 } 
               />

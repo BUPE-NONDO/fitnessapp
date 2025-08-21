@@ -76,6 +76,9 @@ export default function Dashboard() {
                 <Link to="/workouts" className="w-full btn-primary block text-center">
                   🏋️ Workout Library
                 </Link>
+                <Link to="/nutrition" className="w-full btn-primary block text-center">
+                  🍎 Food Database
+                </Link>
                 <button className="w-full btn-secondary">
                   🏃‍♂️ Start Workout
                 </button>
@@ -106,12 +109,12 @@ export default function Dashboard() {
                   Workout Library
                 </div>
                 <div className="flex items-center">
-                  <span className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>
-                  Workout Plans
+                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                  Food Database
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>
-                  Nutrition Tracking
+                  Nutrition Logging
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>

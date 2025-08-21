@@ -73,8 +73,11 @@ export default function Dashboard() {
                 <Link to="/exercises" className="w-full btn-primary block text-center">
                   📚 Exercise Library
                 </Link>
+                <Link to="/workouts" className="w-full btn-primary block text-center">
+                  🏋️ Workout Library
+                </Link>
                 <button className="w-full btn-secondary">
-                  🏋️ Start Workout
+                  🏃‍♂️ Start Workout
                 </button>
                 <button className="w-full btn-secondary">
                   📊 View Progress
@@ -97,6 +100,10 @@ export default function Dashboard() {
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
                   Exercise Library
+                </div>
+                <div className="flex items-center">
+                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                  Workout Library
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>

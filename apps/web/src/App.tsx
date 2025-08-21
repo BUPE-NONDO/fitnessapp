@@ -7,6 +7,7 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import Dashboard from './components/dashboard/Dashboard';
 import ExerciseLibrary from './components/exercises/ExerciseLibrary';
+import WorkoutLibrary from './components/workouts/WorkoutLibrary';
 import './index.css';
 
 // Create a client
@@ -45,6 +46,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <ExerciseLibrary />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/workouts" 
+                element={
+                  <ProtectedRoute>
+                    <WorkoutLibrary />
                   </ProtectedRoute>
                 } 
               />

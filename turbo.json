@@ -6,15 +6,17 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"],
+      "outputs": []
+    },
     "dev": {
       "cache": false,
       "persistent": true
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "typecheck": {
-      "dependsOn": ["^typecheck"]
     },
     "test": {
       "dependsOn": ["^build"],
@@ -29,11 +31,11 @@
     },
     "deploy": {
       "dependsOn": ["build"],
-      "cache": false
+      "outputs": []
     },
     "deploy:prod": {
       "dependsOn": ["build"],
-      "cache": false
+      "outputs": []
     }
   }
 }

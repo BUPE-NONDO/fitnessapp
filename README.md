@@ -1,177 +1,164 @@
-# 💪 FitTrack - Clean Fitness App
+# AuraFit 🏃‍♂️💪
 
-A simple, clean fitness tracking application with signup, login, and goal setting functionality.
+A personalized, test-driven fitness platform that leverages a modern, type-safe technology stack to provide users with tailored workout and nutrition plans, motivating them to achieve their wellness goals.
 
-## 🎨 Design Features
-
-- **Mobile-First Design**: Optimized for smartphones and tablets
-- **Purple & White Theme**: Clean, modern color scheme
-- **Orange Accents**: Vibrant highlights for calls-to-action
-- **Custom Icons**: Unique, cohesive visual elements
-- **Responsive Layout**: Works perfectly on all screen sizes
-
-## 🚀 Features
-
-### User Authentication
-- ✅ **Sign Up**: Create new account with email and password
-- ✅ **Sign In**: Login with existing credentials
-- ✅ **Form Validation**: Real-time input validation
-- ✅ **Password Confirmation**: Secure password setup
-
-### User Profile Setup
-- ✅ **Personal Information**: Age, gender, height, weight
-- ✅ **Activity Level**: From sedentary to extremely active
-- ✅ **Health Assessment**: Basic fitness evaluation
-
-### Goal Setting
-- ✅ **Primary Goals**: Weight loss, muscle gain, endurance, general fitness
-- ✅ **Target Setting**: Specific weight and timeframe goals
-- ✅ **Motivation Tracking**: Personal motivation statements
-- ✅ **Progress Planning**: Structured goal achievement path
-
-### Dashboard
-- ✅ **User Profile Display**: Complete user information
-- ✅ **Goal Overview**: Current goals and progress
-- ✅ **Quick Actions**: Easy access to key features
-- ✅ **Clean Interface**: Intuitive, uncluttered design
-
-## 🛠️ Technology Stack
-
-- **Frontend**: React 18 + TypeScript
-- **Styling**: Custom CSS with mobile-first design
-- **Build Tool**: Vite
-- **Package Manager**: npm
-- **Development**: ESLint + TypeScript
-
-## 📱 User Journey
-
-1. **Welcome Screen**: Clean signup/login interface
-2. **Account Creation**: Simple form with validation
-3. **Profile Setup**: Personal information collection
-4. **Goal Setting**: Fitness objectives and motivation
-5. **Dashboard**: Complete user overview and actions
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+ 
-- npm 8+
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/BUPE-NONDO/fitnessapp.git
-   cd fitnessapp
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open in browser**
-   ```
-   http://localhost:3000
-   ```
-
-### Available Scripts
+## 🚀 Quick Start
 
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Run ESLint
-npm run typecheck    # Run TypeScript checks
+# Install dependencies
+pnpm install
+
+# Start development environment
+pnpm dev
+
+# Run tests
+pnpm test
+
+# Build for production
+pnpm build
 ```
 
-## 🎯 Design Principles
+## 🛠 Tech Stack
 
-### Mobile-First Approach
-- Primary design for mobile devices
-- Responsive scaling for larger screens
-- Touch-friendly interface elements
-- Optimized for one-handed use
+### Frontend
+- **React 18** - UI framework
+- **Vite** - Build tool and dev server
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **shadcn/ui** - UI components (Radix + Tailwind)
+- **TanStack Query** - Data fetching and caching
+- **React Hook Form + Zod** - Forms and validation
 
-### Color Theme
-- **Primary**: Purple gradient (#667eea to #764ba2)
-- **Background**: Clean white (#ffffff)
-- **Accent**: Vibrant orange (#ff6b35)
-- **Text**: Dark gray (#2d3748, #4a5568)
-- **Muted**: Light gray (#718096)
+### Backend
+- **Firebase Functions** - Serverless backend
+- **tRPC** - Type-safe API layer
+- **Firestore** - NoSQL database
+- **Firebase Auth** - Authentication
+- **Firebase Storage** - File storage
 
-### User Experience
-- **Simple Navigation**: Clear, intuitive flow
-- **Progressive Disclosure**: Information revealed step-by-step
-- **Visual Feedback**: Immediate response to user actions
-- **Accessibility**: Focus states and keyboard navigation
+### Development Tools
+- **PNPM** - Package manager with workspaces
+- **Turborepo** - Monorepo build orchestration
+- **Storybook** - Component development
+- **Vitest + Testing Library** - Unit and component testing
+- **Playwright** - End-to-end testing
+- **ESLint + Prettier** - Code quality and formatting
 
-## 📋 Development Roadmap
+## 📁 Project Structure
 
-### Phase 1: Core Authentication ✅
-- [x] Sign up functionality
-- [x] Sign in functionality
-- [x] Form validation
-- [x] User profile setup
-
-### Phase 2: Goal Management ✅
-- [x] Goal setting interface
-- [x] Progress tracking
-- [x] Motivation system
-- [x] Dashboard overview
-
-### Phase 3: Enhanced Features (Future)
-- [ ] Workout planning
-- [ ] Progress charts
-- [ ] Social features
-- [ ] Data persistence
-- [ ] Push notifications
-
-## 🎨 Customization
-
-### Colors
-The app uses CSS custom properties for easy theming:
-
-```css
-:root {
-  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --accent-color: #ff6b35;
-  --background-color: #ffffff;
-  --text-primary: #2d3748;
-  --text-secondary: #4a5568;
-}
+```
+.
+├── apps/
+│   └── web/              # React frontend (+ Storybook)
+├── functions/            # Cloud Functions / tRPC routers
+├── packages/
+│   ├── shared/           # Zod schemas, utilities, common types
+│   └── seeding/          # Data-seeding helpers
+├── docs/                 # Project documentation
+└── .github/             # CI workflows
 ```
 
-### Styling
-All styles are in `apps/web/src/App.css` with:
-- Mobile-first responsive design
-- Smooth animations and transitions
-- Accessibility-focused interactions
-- Clean, modern aesthetics
+## 🔧 Development Setup
+
+### Prerequisites
+- Node.js 18+
+- PNPM 8+
+- Firebase CLI
+
+### Environment Setup
+1. Clone the repository
+2. Install dependencies: `pnpm install`
+3. Copy `.env.example` to `.env` and configure your Firebase project
+4. Start Firebase emulators: `firebase emulators:start`
+5. Start development server: `pnpm dev`
+
+### Firebase Setup
+1. Create a new Firebase project
+2. Enable Firestore, Functions, Auth, and Storage
+3. Update `firebase.json` with your project ID
+4. Deploy security rules: `firebase deploy --only firestore:rules`
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Run unit tests only
+pnpm test:unit
+
+# Run component tests
+pnpm test:component
+
+# Run E2E tests
+pnpm test:e2e
+
+# Run tests with coverage
+pnpm test:coverage
+```
+
+## 📚 Documentation
+
+- [Technical Design Document](./docs/technical-design-doc.md)
+- [Contributing Guidelines](./docs/CONTRIBUTING.md)
+- [API Documentation](./docs/api.md)
+- [Component Library](./apps/web/.storybook)
+
+## 🚀 Deployment
+
+### Preview Deployments
+Every PR automatically creates a preview deployment on Firebase Hosting.
+
+### Production Deployment
+```bash
+# Deploy to production
+pnpm deploy:prod
+
+# Deploy functions only
+pnpm deploy:functions
+```
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Create a feature branch from `dev`
+2. Follow the [conventional commits](https://www.conventionalcommits.org/) format
+3. Write tests for new features
+4. Update documentation as needed
+5. Submit a pull request
+
+### Branching Strategy
+- `main` - Production-ready code
+- `dev` - Development branch
+- `feature/*` - Feature branches
+- `fix/*` - Bug fix branches
+- `docs/*` - Documentation updates
+
+## 📊 Key Features
+
+- **Personalized Workout Plans** - AI-driven workout recommendations
+- **Nutrition Tracking** - Comprehensive food logging and analysis
+- **Progress Visualization** - Charts and insights for goal tracking
+- **Community Features** - Social fitness challenges and leaderboards
+- **Wearable Integration** - Connect with fitness devices
+- **Goal Setting** - SMART goal creation and tracking
+
+## 🎯 Success Metrics
+
+- 80%+ test coverage
+- <2s page load times
+- 95%+ uptime
+- High user engagement and retention
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) for details.
 
-## 👨‍💻 Author
+## 🆘 Support
 
-**BUPE-NONDO**
-- GitHub: [@BUPE-NONDO](https://github.com/BUPE-NONDO)
-- Email: bupe@hytel.io
+- [Issues](https://github.com/your-org/aurafit/issues)
+- [Discussions](https://github.com/your-org/aurafit/discussions)
+- [Documentation](./docs/)
 
 ---
 
-**Built with ❤️ for fitness enthusiasts everywhere**
+Built with ❤️ by the AuraFit team

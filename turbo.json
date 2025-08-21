@@ -6,18 +6,34 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
     "dev": {
       "cache": false,
       "persistent": true
     },
-    "preview": {
-      "dependsOn": ["build"]
+    "lint": {
+      "dependsOn": ["^lint"]
     },
     "typecheck": {
       "dependsOn": ["^typecheck"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "deploy:prod": {
+      "dependsOn": ["build"],
+      "cache": false
     }
   }
 }

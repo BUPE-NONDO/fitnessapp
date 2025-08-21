@@ -1,234 +1,206 @@
-# TECHNICAL DESIGN DOCUMENT
+TECHNICAL DESIGN DOCUMENT: AuraFit
+MY BENEFIT
+One‑sentence pitch: AuraFit is a personalized, test-driven fitness platform that leverages a modern, type-safe technology stack to provide users with tailored workout and nutrition plans, motivating them to achieve their wellness goals.
 
----
+1. OVERVIEW
 
-### MY BENEFIT
+Goal:
 
-**One‑sentence pitch:**
-A fitness tracking app that helps users set, monitor, and achieve fitness goals through personalized dashboards and data-driven progress tracking.
+To provide users with a personalized and motivating platform for managing their fitness and nutrition.
 
----
+To build a highly testable, scalable, and maintainable full-stack application using a modern, type-safe technology stack.
 
-## 1. OVERVIEW
+To create an engaging user experience through data-driven insights, goal tracking, and community features.
 
-**Goal:**
+Key features:
 
-* Enable users to set measurable health/fitness goals.
-* Let users log progress with context (e.g., weight, reps, distance).
-* Visualize progress and habits over time.
+User onboarding and personalized profile creation.
 
-**Key features:**
+Interactive dashboard with goal setting and progress summaries.
 
-* Account creation and secure login.
-* Create/edit goals (e.g., "Run 5km 3x per week").
-* Log activity with timestamp and metrics.
-* Goal progress dashboard and activity history.
-* Optional streaks, milestones, and badges.
+Comprehensive workout and exercise library with custom plan creation.
 
-**Target users & success criteria:**
+Intuitive logging for both workouts and nutritional intake.
 
-* Fitness-conscious individuals, trainers, and beginners.
-* Success = consistent log-ins, goal completion rates, user retention.
+Data visualization for tracking progress over time.
 
----
+Integration with wearable devices for automated activity tracking.
 
-## 2. TECH STACK (GOLDEN PATH)
+Target users & success criteria:
 
-| Layer              | Tech                                     |
-| ------------------ | ---------------------------------------- |
-| Runtime            | Node (Firebase Cloud Functions)          |
-| Language           | TypeScript (strict)                      |
-| Frontend           | React + Vite                             |
-| UI Kit             | shadcn/ui (Radix + Tailwind source‑copy) |
-| Styling            | Tailwind CSS + tokens                    |
-| State / Fetching   | TanStack Query                           |
-| Forms & Validation | React Hook Form + Zod                    |
-| Shared Validation  | Zod (shared in `packages/shared`)        |
-| API Layer          | tRPC (typed, router-based)               |
-| Backend Services   | Firebase Auth · Firestore · Storage      |
-| Monorepo Tooling   | PNPM workspaces + Turborepo              |
-| Testing            | Vitest + Playwright + Storybook          |
-| CI/CD              | GitHub Actions + Firebase Hosting        |
-| Env Management     | T3 Env (Zod-validated + gitignored)      |
-| Versioning         | Changesets                               |
+Target Users: Individuals at any stage of their fitness journey, from beginners seeking guidance to experienced athletes optimizing performance.
 
----
+Success Criteria: High user engagement and retention rates, positive user feedback on personalization and ease of use, and achieving a minimum of 80% test coverage across the application.
 
-## 3. MONOREPO LAYOUT (PNPM)
+2. TECH STACK (GOLDEN PATH)
 
-```
+Category	Technology/Tool
+Runtime	Node (Firebase Gen 2 Cloud Functions)
+Language	TypeScript (strict)
+Front‑end	React + Vite
+UI kit	shadcn/ui (Radix + Tailwind source‑copy model)
+Styling	Tailwind CSS (design‑token file)
+State / data fetching	TanStack Query
+Forms & validation	React Hook Form + Zod resolver
+Shared validation	Zod (client & server)
+API layer	tRPC (typed RPC)
+Backend services	Firebase Auth · Firestore · Storage · Functions
+Package manager / mono	PNPM workspaces
+Build orchestration	Turborepo (remote caching)
+Component workshop	Storybook (UI in isolation)
+Unit / component tests	Vitest + Testing Library
+Visual / interaction	Storybook + @storybook/testing‑library
+End‑to‑end tests	Playwright
+Linting	ESLint (typescript‑eslint) + eslint‑plugin‑perfectionist
+Formatting	Prettier
+Type‑safe env vars	T3 Env (Zod‑validated)
+Versioning / publishing	Changesets (monorepo changelogs & releases)
+CI / CD	GitHub Actions (Turbo‑aware pipeline; see §8)
+
+Export to Sheets
+3. MONOREPO LAYOUT (PNPM)
+
 .
 ├── apps/
-│   └── web/            ← React frontend (auth, dashboard, forms)
-├── functions/          ← Firebase Functions + tRPC routers
+│   └── web/              ← React front‑end (+.storybook)
+├── functions/            ← Cloud Functions / tRPC routers
 ├── packages/
-│   ├── shared/         ← Zod schemas, utils, types
-│   └── seeding/        ← Firestore seeding for emulator/dev
-├── docs/               ← TDD, ADRs, API docs
-└── .github/            ← GitHub Actions workflows
-```
+│   ├── shared/           ← Zod schemas, utilities, common types
+│   └── seeding/          ← Data‑seeding helpers (Firestore emulator/Admin SDK)
+├── docs/                 ← Project docs (this TDD, ADRs, API notes)
+└──.github/              ← CI workflows
+4. ARCHITECTURE
 
----
+The system architecture is designed for simplicity, type-safety, and scalability, leveraging the Firebase ecosystem.
 
-## 4. ARCHITECTURE
+Client (React + TanStack Query) ⇄ tRPC HTTPS endpoints (Cloud Functions)
 
-```
-Client (React + TanStack Query)
-     ⇄
-tRPC (Cloud Functions)
-     ⇄
-Firestore + Firebase Auth
-```
+tRPC handlers read/write Firestore documents and interact with Storage.
 
-* Client fetches via TanStack Query + tRPC.
-* Backend validates with Zod, writes to Firestore.
-* Auth via Firebase; protected routes + server procedures.
+The frontend, built with React and Vite, communicates with the backend via tRPC. This provides end-to-end type safety without requiring code generation, as the client can directly import the type definitions of the API router. All backend logic is encapsulated within Firebase Cloud Functions, which serve as the tRPC API endpoints. These functions handle business logic and interact directly with Firebase services like Firestore for data persistence and Firebase Storage for file storage (e.g., user profile images).
 
----
+5. DATA MODEL
 
-## 5. DATA MODEL
+The data will be stored in Cloud Firestore, a NoSQL document database. This model is chosen for its scalability, real-time capabilities, and seamless integration with Firebase Functions and Auth.
 
-| Entity   | Key fields                                   | Notes                   |
-| -------- | -------------------------------------------- | ----------------------- |
-| User     | uid, email, name, avatar                     | Auth via Firebase       |
-| Goal     | id, userId, title, metric, frequency, target | Associated with a user  |
-| LogEntry | id, goalId, date, value, notes               | Tied to a specific goal |
-| Badge    | id, userId, title, unlockedAt                | Optional gamification   |
+Entity	Key fields	Notes
+User	uid, email, displayName, photoURL	Stored in the users collection; uid links to Firebase Auth.
+UserProfile	heightCm, weightKg, goals (JSON)	Sub-collection under a User document.
+Workout	userId, name, startedAt	Stored in a top-level workouts collection.
+WorkoutSet	exerciseId, reps, weightKg	Stored as an array of objects within a Workout document.
+Exercise	name, videoUrl, muscleGroup	Stored in a top-level exercises collection for the master list.
+NutritionLog	userId, foodName, calories, proteinG, loggedAt	Stored in a top-level nutrition_logs collection.
 
-**Security rules:**
+Export to Sheets
+Security rules: Firestore security rules will be implemented to enforce the principle of least privilege. For example, users will only be able to read and write their own UserProfile, Workout, and NutritionLog documents.
 
-* Users can only read/write their own `goals`, `logs`, and `badges`.
-* Admin-only write to `badges` metadata (if system-defined).
+Index strategy: Composite indexes will be created in Firestore to support complex queries required for reporting and analytics, such as querying a user's workouts within a specific date range, sorted by start time.
 
-**Index strategy:**
+6. API DESIGN (tRPC)
 
-* Composite: `logs` by `userId + date`, `goalId + date`
+The API is structured around tRPC routers, with Zod used for robust input validation.
 
----
+Router	Procedure	Input (Zod schema)	Output
+user	getProfile	z.void()	{ id, name, email, profile }
+user	updateProfile	z.object({ heightCm: z.number(),... })	{ success: true }
+workout	log	z.object({ name: z.string(), sets: z.array(...) })	{ workoutId: string }
+workout	getHistory	z.object({ limit: z.number().optional() })	Array<{ id, name, startedAt }>
+dashboard	getStats	z.object({ period: z.enum(['7d', '30d']) })	{ weightTrend, calorieAvg,... }
 
-## 6. API DESIGN (tRPC)
+Export to Sheets
+Error‑handling conventions: tRPC middleware will be used to handle errors consistently. Authentication errors will return a UNAUTHORIZED code. Zod validation errors will automatically return a BAD_REQUEST code with detailed validation issues. Server-side errors will be caught and logged, returning a generic INTERNAL_SERVER_ERROR to the client.
 
-| Router | Procedure     | Input Zod Schema      | Output      |
-| ------ | ------------- | --------------------- | ----------- |
-| user   | getSelf       | session               | User        |
-| goal   | create        | title, metric, target | Goal        |
-| goal   | getAll        | none                  | Goal\[]     |
-| goal   | update/delete | id, updates           | Goal        |
-| log    | create        | goalId, date, value   | LogEntry    |
-| log    | getByGoal     | goalId                | LogEntry\[] |
-| badge  | getUnlocked   | userId                | Badge\[]    |
+7. TESTING STRATEGY
 
-**Error-handling conventions:**
+A multi-layered testing strategy ensures application quality and reliability.
 
-* 401 on unauthenticated access.
-* 403 on unauthorized access (wrong userId).
-* 400 for Zod validation failures.
-* Global error transformer in tRPC middleware.
+Level / focus	Toolset	Scope
+Unit	Vitest	Pure functions (e.g., utility functions in packages/shared), custom hooks.
+Component	Vitest + Testing Library	Individual React components, verifying rendering and props.
+Visual / interaction	Storybook + @storybook/testing‑library	UI snapshots to prevent visual regressions, user interactions within Storybook.
+End‑to‑end	Playwright	
+Critical user flows like authentication, workout logging, and profile updates.
 
----
+Coverage target: ≥80% statement coverage for unit and component tests.
 
-## 7. TESTING STRATEGY
+Fixtures / seeding: pnpm seed → runs scripts in packages/seeding against the Firebase emulator to ensure a consistent test environment.
 
-| Level / focus        | Toolset                                | Scope                      |
-| -------------------- | -------------------------------------- | -------------------------- |
-| Unit                 | Vitest                                 | Pure functions, Zod, utils |
-| Component            | Vitest + Testing Library               | Form, card, UI layouts     |
-| Visual / interaction | Storybook + @storybook/testing-library | Modal behavior, buttons    |
-| End-to-end           | Playwright                             | Sign in, goal creation     |
+8. CI / CD PIPELINE (GITHUB ACTIONS)
 
-**Coverage target:** ≥ 80% statements
-**Seeding:**
+The pipeline is configured in .github/workflows/ and is optimized with Turborepo's remote caching.
 
-```bash
-pnpm seed  # Writes dummy users/goals/logs to Firestore emulator
-```
+Setup PNPM and restore Turbo remote cache.
 
----
+pnpm exec turbo run lint typecheck – ESLint & tsc --noEmit.
 
-## 8. CI / CD PIPELINE (GITHUB ACTIONS)
+pnpm exec turbo run test – Vitest (Turbo skips untouched packages).
 
-1. Setup PNPM + Turbo remote cache.
-2. `pnpm exec turbo run lint typecheck` — ESLint + `tsc`.
-3. `pnpm exec turbo run test` — Vitest test suite.
-4. `pnpm exec turbo run build-storybook` — for hosting previews.
-5. `pnpm exec turbo run e2e` — Playwright headless tests.
-6. Deploy staging on PR via Firebase Hosting preview channel.
-7. On merge to `main`:
+pnpm exec turbo run build-storybook – generates static Storybook for visual regression checks.
 
-   * Changesets release
-   * Promote to production
+pnpm exec turbo run e2e – Playwright suite (headless) against the Firebase emulator.
 
----
+Deploy preview (Firebase Hosting channel + optional Storybook host).
 
-## 9. ENVIRONMENTS & SECRETS
+Changesets release & promote to prod on merge to main.
 
-| Env        | URL                          | Notes                                   |
-| ---------- | ---------------------------- | --------------------------------------- |
-| local      | `http://localhost:5173`      | Uses Firebase emulator and `.env.stage` |
-| preview-\* | Firebase Hosting preview     | Per-branch deploys                      |
-| prod       | `https://app.yourdomain.com` | Main production hosting                 |
+9. ENVIRONMENTS & SECRETS
 
-* Secrets stored via Firebase `functions:config:set` and GitHub repo secrets.
-* Never checked into `.env`.
+Env	URL / target	Notes
+local	localhost:5173	.env + Firebase emulators; validated by T3 Env.
+preview-*	Firebase Hosting channel	Auto‑created per PR.
+prod	https://aurafit.app	Promote via CI workflow.
 
----
+Export to Sheets
+Secrets are handled with firebase functions:config:set for backend functions and GitHub repo secrets for the CI/CD pipeline. This prevents hardcoding sensitive data.
 
-## 10. PERFORMANCE & SCALABILITY
+10. PERFORMANCE & SCALABILITY
 
-* Firestore writes denormalized (avoid shared counters).
-* Query performance: paginated, indexed reads.
-* TanStack Query cache tuned (e.g., `staleTime`, `retry`, `prefetching`).
-* Code splitting via Vite's dynamic imports.
+Denormalize Firestore data where appropriate to optimize for frequent read patterns and avoid complex queries.
 
----
+Tune TanStack Query caching strategies (staleTime, cacheTime) to minimize unnecessary data fetching and improve perceived performance.
 
-## 11. MONITORING & LOGGING
+Code‑split via Vite dynamic import() to ensure only the necessary JavaScript is loaded for each route.
 
-| Concern        | Tool                          | Notes                      |
-| -------------- | ----------------------------- | -------------------------- |
-| Runtime errors | Firebase Crashlytics / Sentry | Captures frontend crashes  |
-| Server logs    | Google Cloud Logging          | Functions log via `logger` |
-| Analytics      | PostHog (or GA4)              | Funnels, goal conversions  |
+11. MONITORING & LOGGING
 
----
+Concern	Tool	Notes
+Runtime errors	Firebase Crashlytics / Sentry	Front‑end error capture and reporting.
+Server logs	Google Cloud Logging	Structured JSON logs from Firebase Functions for debugging and analysis.
+Analytics	GA4 or PostHog	Track user engagement funnels & feature usage.
 
-## 12. ACCESSIBILITY & I18N
+Export to Sheets
+12. ACCESSIBILITY & I18N
 
-* `shadcn/ui` (Radix-based) ensures semantic HTML, keyboard focus.
-* Storybook a11y addon for color contrast + ARIA checks.
-* All pages pass WCAG 2.1 AA audits.
-* Internationalization via `react-i18next` (planned post-MVP).
+shadcn/ui components are built on Radix UI primitives, ensuring a high standard of accessibility (focus management, ARIA attributes) out of the box.
 
----
+The Storybook accessibility addon will be used for quick audits during component development.
 
-## 13. CODE QUALITY & FORMATTING
+All development will adhere to WCAG 2.1 AA checklist standards (e.g., color contrast, keyboard navigation).
 
-* Prettier auto-formats on save/commit.
-* ESLint enforced in CI, including `eslint-plugin-perfectionist`.
-* Husky + `lint-staged` run pre-commit checks (`tsc`, `lint`, `test`).
+i18n plan: Internationalization will be planned for a future release, likely using a library like react-i18next.
 
----
+13. CODE QUALITY & FORMATTING
 
-## 14. OPEN QUESTIONS / RISKS
+Prettier formats code automatically on save and as a pre-commit action to ensure consistent styling.
 
-| Item                        | Owner | Resolution date |
-| --------------------------- | ----- | --------------- |
-| Gamification system logic   | PM    | TBD             |
-| i18n rollout (MVP or later) | Dev   | TBD             |
+ESLint governs code quality rules; the eslint-plugin-perfectionist plug‑in auto‑sorts imports, object keys, and more.
 
----
+Husky pre‑commit hook runs lint-staged to lint and format staged files before they are committed.
 
-## 15. APPENDICES
+14. OPEN QUESTIONS / RISKS
 
-* Setup script:
+Item	Owner	Resolution date
+Firestore query limitations for complex analytics	Backend Lead	TBD
+Vendor lock-in with Firebase ecosystem	CTO	TBD
+Cost management for Firestore reads/writes at scale	Product Owner	TBD
 
-  ```bash
-  pnpm exec turbo run setup
-  ```
-* Branching model: Conventional commits + Changesets.
-* Links:
+Export to Sheets
+15. APPENDICES
 
-  * Figma: \[Link here]
-  * Storybook: \[Link here]
-  * Product Spec: \[Link here]
-  * ADRs: `/docs/adr-*`
+Setup script: pnpm install && pnpm dev to run the local development environment with Firebase emulators.
+
+Branching model: Conventional Commits + Changesets for automated versioning and changelog generation.
+
+Links: Figma Designs, Storybook URL, Project Backlog.
+
+Last updated: 2025-08-21

@@ -1,63 +1,122 @@
 # Pull Request
 
 ## 📋 Description
-<!-- Provide a brief description of the changes in this PR -->
 
-## 🎯 Related Issues
-<!-- Link to related issues -->
-- Closes #
-- Related to #
+<!-- Provide a brief description of the changes made -->
 
-## 🔄 Type of Change
-<!-- Mark the relevant option with an "x" -->
+## 🎯 Type of Change
+
 - [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
 - [ ] ✨ New feature (non-breaking change which adds functionality)
 - [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] 📚 Documentation update
-- [ ] 🔧 Configuration change
-- [ ] 🧪 Test addition or update
+- [ ] 🎨 Style/UI changes
 - [ ] ♻️ Code refactoring
+- [ ] ⚡ Performance improvements
+- [ ] 🧪 Test additions or updates
+- [ ] 🔧 Configuration changes
+
+## 🔗 Related Issues
+
+<!-- Link to any related issues -->
+Closes #(issue number)
+Related to #(issue number)
 
 ## 🧪 Testing
-<!-- Describe the tests you ran and how to reproduce them -->
-- [ ] Unit tests pass
-- [ ] Integration tests pass
-- [ ] E2E tests pass (if applicable)
-- [ ] Manual testing completed
 
-### Test Instructions
-<!-- Provide step-by-step instructions for testing this change -->
-1. 
-2. 
-3. 
+### Test Coverage
+- [ ] Unit tests added/updated
+- [ ] Component tests added/updated
+- [ ] E2E tests added/updated
+- [ ] Test coverage maintained or improved
+
+### Manual Testing
+- [ ] Tested on desktop browsers (Chrome, Firefox, Safari, Edge)
+- [ ] Tested on mobile devices
+- [ ] Tested accessibility features
+- [ ] Tested error scenarios
 
 ## 📸 Screenshots/Videos
-<!-- Add screenshots or videos if applicable -->
 
-## ✅ Checklist
-<!-- Mark completed items with an "x" -->
-- [ ] My code follows the project's style guidelines
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] Any dependent changes have been merged and published
+<!-- If applicable, add screenshots or videos to help explain your changes -->
 
-## 🔍 Code Quality
-- [ ] ESLint passes
-- [ ] TypeScript compilation succeeds
-- [ ] Prettier formatting applied
-- [ ] No console.log statements left in code
-- [ ] No TODO comments without corresponding issues
+## 📋 Checklist
 
-## 🚀 Deployment Notes
-<!-- Any special deployment considerations -->
-- [ ] Requires database migration
-- [ ] Requires environment variable changes
-- [ ] Requires dependency updates
-- [ ] Safe to deploy immediately
+### Before submitting
+- [ ] Code follows the project's style guidelines
+- [ ] Self-review of code completed
+- [ ] Code is commented, particularly in hard-to-understand areas
+- [ ] Corresponding changes to documentation made
+- [ ] No new warnings generated
+- [ ] All tests pass locally
+- [ ] Linting passes without errors
+- [ ] Type checking passes without errors
+
+### Code Quality
+- [ ] Code is properly typed with TypeScript
+- [ ] No console.log statements left in production code
+- [ ] Error handling is implemented where appropriate
+- [ ] Performance considerations addressed
+- [ ] Security considerations addressed
+
+### Documentation
+- [ ] README updated if needed
+- [ ] API documentation updated if needed
+- [ ] Component documentation updated if needed
+- [ ] Comments added to complex logic
+
+## 🚀 Deployment
+
+### Environment Variables
+- [ ] No new environment variables required
+- [ ] New environment variables documented
+- [ ] Environment variables added to `.env.example`
+
+### Database Changes
+- [ ] No database changes
+- [ ] Database migrations included
+- [ ] Database changes documented
+
+### Breaking Changes
+- [ ] No breaking changes
+- [ ] Breaking changes documented
+- [ ] Migration guide provided
+
+## 📊 Performance Impact
+
+<!-- Describe any performance implications of your changes -->
+
+## 🔒 Security Considerations
+
+<!-- Describe any security implications of your changes -->
+
+## 🎯 Acceptance Criteria
+
+<!-- List the acceptance criteria for this PR -->
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+- [ ] Criterion 3
 
 ## 📝 Additional Notes
+
 <!-- Any additional information that reviewers should know -->
+
+## 🔍 Review Guidelines
+
+### For Reviewers
+- [ ] Code follows project patterns and conventions
+- [ ] Tests are comprehensive and meaningful
+- [ ] Documentation is clear and complete
+- [ ] Performance implications considered
+- [ ] Security implications considered
+- [ ] Accessibility requirements met
+
+### For Authors
+- [ ] Address all review comments
+- [ ] Update PR description if needed
+- [ ] Re-request review when ready
+
+---
+
+**Thank you for contributing to AuraFit! 🏃‍♂️💪**

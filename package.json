@@ -1,36 +1,38 @@
 {
-  "name": "fitness-app",
-  "version": "0.1.0",
+  "name": "aurafit",
+  "version": "1.0.0",
+  "description": "A personalized, test-driven fitness platform",
   "private": true,
-  "description": "A clean fitness tracking application with signup and login",
-  "keywords": [
-    "fitness",
-    "tracking",
-    "react",
-    "typescript"
-  ],
-  "author": "BUPE-NONDO",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/BUPE-NONDO/fitnessapp.git"
-  },
-  "workspaces": [
-    "apps/web"
-  ],
   "scripts": {
-    "dev": "cd apps/web && pnpm dev",
-    "build": "cd apps/web && pnpm build",
-    "preview": "cd apps/web && pnpm preview",
-    "lint": "cd apps/web && pnpm lint",
-    "typecheck": "cd apps/web && pnpm typecheck"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean",
+    "deploy": "turbo run deploy",
+    "deploy:prod": "turbo run deploy:prod",
+    "seed": "pnpm --filter @aurafit/seeding seed"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
-    "typescript": "^5.4.2"
+    "@types/node": "^20.10.0",
+    "turbo": "^1.11.0",
+    "typescript": "^5.3.3",
+    "prettier": "^3.1.0",
+    "eslint": "^8.55.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint-plugin-perfectionist": "^1.0.0"
   },
+  "packageManager": "pnpm@8.15.0",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
-  }
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "functions"
+  ]
 }

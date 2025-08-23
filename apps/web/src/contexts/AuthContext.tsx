@@ -12,6 +12,18 @@ import {
 } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 
+interface UserProfileData {
+  displayName: string;
+  age: number;
+  gender: 'male' | 'female' | 'other' | 'prefer-not-to-say';
+  height: number; // in cm
+  weight: number; // in kg
+  fitnessLevel: 'beginner' | 'intermediate' | 'advanced';
+  goals: string[];
+  activityLevel: 'sedentary' | 'lightly-active' | 'moderately-active' | 'very-active' | 'extremely-active';
+  profilePicture?: string;
+}
+
 interface AuthContextType {
   currentUser: User | null;
   loading: boolean;
@@ -20,7 +32,7 @@ interface AuthContextType {
   signOutUser: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
-  updateUserProfile: (displayName: string) => Promise<void>;
+  updateUserProfile: (profileData: UserProfileData) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -74,9 +86,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await signInWithPopup(auth, provider);
   };
 
-  const updateUserProfile = async (displayName: string) => {
+  const updateUserProfile = async (profileData: UserProfileData) => {
     if (currentUser) {
-      await updateProfile(currentUser, { displayName });
+      // Update Firebase Auth profile with display name
+      await updateProfile(currentUser, { displayName: profileData.displayName });
+      
+      // TODO: Save extended profile data to Firestore
+      // This would typically involve saving to a separate collection
+      // For now, we'll just update the display name
+      console.log('Profile data to save:', profileData);
     }
   };
 

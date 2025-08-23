@@ -111,6 +111,9 @@ export default function Dashboard() {
                 <Link to="/challenges" className="w-full btn-primary block text-center">
                   🏆 Community Challenges
                 </Link>
+                <Link to="/wearable" className="w-full btn-primary block text-center">
+                  ⌚ Wearable Integration
+                </Link>
               </div>
             </div>
 

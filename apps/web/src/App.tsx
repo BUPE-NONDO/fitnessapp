@@ -21,6 +21,7 @@ import SocialFeed from './components/social/SocialFeed';
 import AdvancedAnalytics from './components/analytics/AdvancedAnalytics';
 import Challenges from './components/challenges/Challenges';
 import ChallengeDetail from './components/challenges/ChallengeDetail';
+import WearableIntegration from './components/wearable/WearableIntegration';
 import './index.css';
 
 // Create a client
@@ -169,6 +170,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <ChallengeDetail />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/wearable" 
+                element={
+                  <ProtectedRoute>
+                    <WearableIntegration />
                   </ProtectedRoute>
                 } 
               />

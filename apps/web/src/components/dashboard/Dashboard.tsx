@@ -117,6 +117,9 @@ export default function Dashboard() {
                 <Link to="/ai-recommendations" className="w-full btn-primary block text-center">
                   🤖 AI Recommendations
                 </Link>
+                <Link to="/moderation" className="w-full btn-primary block text-center">
+                  🛡️ Content Moderation
+                </Link>
               </div>
             </div>
 

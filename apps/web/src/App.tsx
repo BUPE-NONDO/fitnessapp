@@ -23,6 +23,7 @@ import Challenges from './components/challenges/Challenges';
 import ChallengeDetail from './components/challenges/ChallengeDetail';
 import WearableIntegration from './components/wearable/WearableIntegration';
 import AIRecommendations from './components/ai/AIRecommendations';
+import ContentModeration from './components/moderation/ContentModeration';
 import './index.css';
 
 // Create a client
@@ -189,6 +190,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AIRecommendations />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/moderation" 
+                element={
+                  <ProtectedRoute>
+                    <ContentModeration />
                   </ProtectedRoute>
                 } 
               />

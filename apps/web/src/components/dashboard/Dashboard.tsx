@@ -108,6 +108,9 @@ export default function Dashboard() {
                 <Link to="/analytics" className="w-full btn-primary block text-center">
                   📈 Advanced Analytics
                 </Link>
+                <Link to="/challenges" className="w-full btn-primary block text-center">
+                  🏆 Community Challenges
+                </Link>
               </div>
             </div>
 

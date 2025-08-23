@@ -22,6 +22,7 @@ import AdvancedAnalytics from './components/analytics/AdvancedAnalytics';
 import Challenges from './components/challenges/Challenges';
 import ChallengeDetail from './components/challenges/ChallengeDetail';
 import WearableIntegration from './components/wearable/WearableIntegration';
+import AIRecommendations from './components/ai/AIRecommendations';
 import './index.css';
 
 // Create a client
@@ -179,6 +180,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <WearableIntegration />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/ai-recommendations" 
+                element={
+                  <ProtectedRoute>
+                    <AIRecommendations />
                   </ProtectedRoute>
                 } 
               />

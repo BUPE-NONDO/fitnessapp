@@ -114,6 +114,9 @@ export default function Dashboard() {
                 <Link to="/wearable" className="w-full btn-primary block text-center">
                   ⌚ Wearable Integration
                 </Link>
+                <Link to="/ai-recommendations" className="w-full btn-primary block text-center">
+                  🤖 AI Recommendations
+                </Link>
               </div>
             </div>
 

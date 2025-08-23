@@ -1,41 +1,137 @@
-import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
-import ThemeToggle from '../ui/ThemeToggle';
+import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
+import ThemeToggle from "../ui/ThemeToggle";
+
+interface UserProfileData {
+  displayName: string;
+  age: number;
+  gender: "male" | "female" | "other" | "prefer-not-to-say";
+  height: number;
+  weight: number;
+  fitnessLevel: "beginner" | "intermediate" | "advanced";
+  goals: string[];
+  activityLevel:
+    | "sedentary"
+    | "lightly-active"
+    | "moderately-active"
+    | "very-active"
+    | "extremely-active";
+  primaryGoal?: {
+    type: string;
+    targetWeight?: number;
+    timeframe: string;
+    motivation: string;
+  };
+}
+
+interface ActivityData {
+  today: {
+    calories: number;
+    steps: number;
+    workouts: number;
+    water: number;
+    sleep: number;
+  };
+  weekly: {
+    workouts: number;
+    totalTime: number;
+    calories: number;
+    streak: number;
+  };
+  monthly: {
+    weightChange: number;
+    bodyFatChange: number;
+    muscleGain: number;
+  };
+}
 
 export default function Dashboard() {
   const { currentUser, signOutUser } = useAuth();
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "workouts" | "nutrition" | "progress" | "social"
+  >("overview");
+
+  const [userProfile] = useState<UserProfileData>({
+    displayName: currentUser?.displayName || "BUPE NONDO",
+    age: 25,
+    gender: "male",
+    height: 175,
+    weight: 75,
+    fitnessLevel: "intermediate",
+    goals: ["Weight Loss", "Muscle Gain", "Strength Training"],
+    activityLevel: "moderately-active",
+    primaryGoal: {
+      type: "weight-loss",
+      targetWeight: 70,
+      timeframe: "3-months",
+      motivation: "To improve overall health and fitness",
+    },
+  });
+
+  const [activityData] = useState<ActivityData>({
+    today: {
+      calories: 1850,
+      steps: 8420,
+      workouts: 1,
+      water: 6,
+      sleep: 7.5,
+    },
+    weekly: {
+      workouts: 4,
+      totalTime: 320,
+      calories: 12500,
+      streak: 12,
+    },
+    monthly: {
+      weightChange: -2.5,
+      bodyFatChange: -1.2,
+      muscleGain: 1.8,
+    },
+  });
 
   const handleSignOut = async () => {
     try {
       await signOutUser();
-      navigate('/signin');
+      navigate("/signin");
     } catch (error) {
-      console.error('Failed to sign out:', error);
+      console.error("Failed to sign out:", error);
     }
   };
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 17) return "Good Afternoon";
+    return "Good Evening";
+  };
+
+  const getMotivationalMessage = () => {
+    const messages = [
+      "You're crushing your fitness goals! 💪",
+      "Every workout brings you closer to your dreams! 🎯",
+      "Your dedication is inspiring! Keep it up! 🔥",
+      "Today is another opportunity to be amazing! ⭐",
+      "You've got this! Your future self will thank you! 🚀",
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm dark:bg-gray-800 dark:shadow-gray-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+      <header className="border-b bg-white shadow-sm">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-4">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">AuraFit</h1>
+              <h1 className="text-2xl font-bold text-gray-900">AuraFit</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-gray-700 dark:text-gray-300">
-                Welcome, {currentUser?.displayName || currentUser?.email}
-              </span>
               <ThemeToggle />
-              <Link to="/profile" className="btn-secondary">
-                Profile
-              </Link>
               <button
                 onClick={handleSignOut}
-                className="btn-secondary"
+                className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
               >
                 Sign Out
               </button>
@@ -45,146 +141,233 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Welcome Card */}
-            <div className="card">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                Welcome to AuraFit! 🏃‍♂️💪
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Your personalized fitness journey starts here. Track your workouts, 
-                monitor your progress, and achieve your fitness goals.
-              </p>
-              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
-                <p className="text-sm text-purple-700 dark:text-purple-300">
-                  <strong>Account:</strong> {currentUser?.email}
-                </p>
-                {currentUser?.displayName && (
-                  <p className="text-sm text-purple-700 dark:text-purple-300">
-                    <strong>Name:</strong> {currentUser.displayName}
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        {/* Tab Navigation */}
+        <div className="mb-6 rounded-2xl bg-white shadow-sm">
+          <div className="flex space-x-1 p-2">
+            {[
+              { id: "overview", label: "Overview", icon: "🏠" },
+              { id: "workouts", label: "Workouts", icon: "💪" },
+              { id: "nutrition", label: "Nutrition", icon: "🍎" },
+              { id: "progress", label: "Progress", icon: "📊" },
+              { id: "social", label: "Social", icon: "👥" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`flex flex-1 items-center justify-center space-x-2 rounded-xl px-4 py-3 transition-all ${
+                  activeTab === tab.id
+                    ? "bg-purple-600 text-white shadow-md"
+                    : "text-gray-600 hover:bg-gray-100"
+                }`}
+              >
+                <span>{tab.icon}</span>
+                <span className="font-medium">{tab.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Overview Tab */}
+        {activeTab === "overview" && (
+          <div className="space-y-6">
+            {/* Welcome Section */}
+            <div className="rounded-2xl bg-gradient-to-r from-purple-600 to-blue-600 p-6 text-white">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h1 className="text-2xl font-bold">
+                    {getGreeting()}, {userProfile.displayName}! 👋
+                  </h1>
+                  <p className="mt-1 text-purple-100">
+                    {getMotivationalMessage()}
                   </p>
-                )}
+                </div>
+                <div className="text-right">
+                  <div className="text-3xl font-bold">
+                    {activityData.weekly.streak}
+                  </div>
+                  <div className="text-sm text-purple-100">Day Streak</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              <div className="rounded-xl bg-white p-4 shadow-sm">
+                <div className="flex items-center">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100">
+                    <span className="text-lg text-red-600">🔥</span>
+                  </div>
+                  <div className="ml-3">
+                    <div className="text-2xl font-bold text-gray-900">
+                      {activityData.today.calories}
+                    </div>
+                    <div className="text-sm text-gray-500">Calories</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-xl bg-white p-4 shadow-sm">
+                <div className="flex items-center">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                    <span className="text-lg text-blue-600">👟</span>
+                  </div>
+                  <div className="ml-3">
+                    <div className="text-2xl font-bold text-gray-900">
+                      {activityData.today.steps.toLocaleString()}
+                    </div>
+                    <div className="text-sm text-gray-500">Steps</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-xl bg-white p-4 shadow-sm">
+                <div className="flex items-center">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
+                    <span className="text-lg text-green-600">💧</span>
+                  </div>
+                  <div className="ml-3">
+                    <div className="text-2xl font-bold text-gray-900">
+                      {activityData.today.water}
+                    </div>
+                    <div className="text-sm text-gray-500">Glasses</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-xl bg-white p-4 shadow-sm">
+                <div className="flex items-center">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
+                    <span className="text-lg text-purple-600">😴</span>
+                  </div>
+                  <div className="ml-3">
+                    <div className="text-2xl font-bold text-gray-900">
+                      {activityData.today.sleep}h
+                    </div>
+                    <div className="text-sm text-gray-500">Sleep</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Today's Progress */}
+            <div className="rounded-2xl bg-white p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-bold text-gray-900">
+                Today's Progress
+              </h2>
+              <div className="space-y-4">
+                <div>
+                  <div className="mb-2 flex justify-between text-sm">
+                    <span>Calories Burned</span>
+                    <span>{activityData.today.calories} / 2200</span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-gray-200">
+                    <div
+                      className="h-2 rounded-full bg-red-500 transition-all duration-300"
+                      style={{
+                        width: `${(activityData.today.calories / 2200) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex justify-between text-sm">
+                    <span>Steps</span>
+                    <span>
+                      {activityData.today.steps.toLocaleString()} / 10,000
+                    </span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-gray-200">
+                    <div
+                      className="h-2 rounded-full bg-blue-500 transition-all duration-300"
+                      style={{
+                        width: `${(activityData.today.steps / 10000) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex justify-between text-sm">
+                    <span>Water Intake</span>
+                    <span>{activityData.today.water} / 8 glasses</span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-gray-200">
+                    <div
+                      className="h-2 rounded-full bg-green-500 transition-all duration-300"
+                      style={{
+                        width: `${(activityData.today.water / 8) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Quick Actions */}
-            <div className="card">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="rounded-2xl bg-white p-6 shadow-sm">
+              <h2 className="mb-4 text-xl font-bold text-gray-900">
                 Quick Actions
-              </h3>
-              <div className="space-y-3">
-                <Link to="/exercises" className="w-full btn-primary block text-center">
-                  📚 Exercise Library
+              </h2>
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                <Link
+                  to="/workout-plans"
+                  className="rounded-xl bg-gradient-to-r from-red-500 to-red-600 p-4 text-center text-white transition-all hover:from-red-600 hover:to-red-700"
+                >
+                  <div className="mb-2 text-2xl">🏋️</div>
+                  <div className="font-medium">Start Workout</div>
                 </Link>
-                <Link to="/workouts" className="w-full btn-primary block text-center">
-                  🏋️ Workout Library
+
+                <Link
+                  to="/nutrition/log"
+                  className="rounded-xl bg-gradient-to-r from-green-500 to-green-600 p-4 text-center text-white transition-all hover:from-green-600 hover:to-green-700"
+                >
+                  <div className="mb-2 text-2xl">🍎</div>
+                  <div className="font-medium">Log Food</div>
                 </Link>
-                <Link to="/workout-plans" className="w-full btn-primary block text-center">
-                  📋 Workout Plans
+
+                <Link
+                  to="/progress"
+                  className="rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 p-4 text-center text-white transition-all hover:from-blue-600 hover:to-blue-700"
+                >
+                  <div className="mb-2 text-2xl">📊</div>
+                  <div className="font-medium">View Progress</div>
                 </Link>
-                <Link to="/nutrition" className="w-full btn-primary block text-center">
-                  🍎 Food Database
-                </Link>
-                <button className="w-full btn-secondary">
-                  🏃‍♂️ Start Workout
-                </button>
-                <Link to="/progress" className="w-full btn-primary block text-center">
-                  📊 View Progress
-                </Link>
-                <Link to="/goals" className="w-full btn-primary block text-center">
-                  🎯 Set Goals
-                </Link>
-                <Link to="/nutrition/log" className="w-full btn-primary block text-center">
-                  📝 Log Nutrition
-                </Link>
-                <Link to="/nutrition/analytics" className="w-full btn-primary block text-center">
-                  📊 Nutrition Analytics
-                </Link>
-                <Link to="/social" className="w-full btn-primary block text-center">
-                  👥 Social Feed
-                </Link>
-                <Link to="/analytics" className="w-full btn-primary block text-center">
-                  📈 Advanced Analytics
-                </Link>
-                <Link to="/challenges" className="w-full btn-primary block text-center">
-                  🏆 Community Challenges
-                </Link>
-                <Link to="/wearable" className="w-full btn-primary block text-center">
-                  ⌚ Wearable Integration
-                </Link>
-                <Link to="/ai-recommendations" className="w-full btn-primary block text-center">
-                  🤖 AI Recommendations
-                </Link>
-                <Link to="/moderation" className="w-full btn-primary block text-center">
-                  🛡️ Content Moderation
+
+                <Link
+                  to="/social"
+                  className="rounded-xl bg-gradient-to-r from-purple-500 to-purple-600 p-4 text-center text-white transition-all hover:from-purple-600 hover:to-purple-700"
+                >
+                  <div className="mb-2 text-2xl">👥</div>
+                  <div className="font-medium">Community</div>
                 </Link>
               </div>
             </div>
-
-            {/* Features Coming Soon */}
-            <div className="card">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Features Coming Soon
-              </h3>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                  Exercise Library
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                  Workout Library
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                  Food Database
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                  Nutrition Logging
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                  Progress Analytics
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                  Goal Setting
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                  User Profile Management
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>
-                  Community Features
-                </div>
-              </div>
-            </div>
           </div>
+        )}
 
-          {/* Stats Overview */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="card text-center">
-              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">12</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Workouts</div>
+        {/* Other tabs placeholder */}
+        {activeTab !== "overview" && (
+          <div className="rounded-2xl bg-white p-6 text-center shadow-sm">
+            <div className="mb-4 text-4xl">
+              {activeTab === "workouts"
+                ? "💪"
+                : activeTab === "nutrition"
+                  ? "🍎"
+                  : activeTab === "progress"
+                    ? "📊"
+                    : "👥"}
             </div>
-            <div className="card text-center">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">3</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Goals</div>
-            </div>
-            <div className="card text-center">
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">28</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Days Active</div>
-            </div>
-            <div className="card text-center">
-              <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">2</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Achievements</div>
-            </div>
+            <h2 className="mb-2 text-xl font-bold text-gray-900">
+              {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Coming
+              Soon
+            </h2>
+            <p className="text-gray-500">
+              This feature is being developed with modern fitness app standards.
+            </p>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );

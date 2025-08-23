@@ -33,8 +33,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "tailwind-merge": "^2.0.0",
-    "lucide-react": "^0.294.0",
-    "@aurafit/shared": "workspace:*"
+    "lucide-react": "^0.294.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

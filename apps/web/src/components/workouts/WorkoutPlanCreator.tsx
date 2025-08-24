@@ -202,19 +202,19 @@ export default function WorkoutPlanCreator() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      <h2 className="mb-6 text-2xl font-bold text-gray-900">
+    <div className="mx-auto max-w-4xl p-4 sm:p-6">
+      <h2 className="mb-4 text-xl font-bold text-gray-900 sm:mb-6 sm:text-2xl dark:text-white">
         Create Workout Plan
       </h2>
 
       {/* Basic Information */}
-      <div className="mb-6 rounded-xl bg-white p-6 shadow-sm">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900">
+      <div className="mb-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-colors duration-200 sm:mb-6 sm:p-6 dark:border-gray-700 dark:bg-gray-800">
+        <h3 className="mb-3 text-base font-semibold text-gray-900 sm:mb-4 sm:text-lg dark:text-white">
           Basic Information
         </h3>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2">
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
               Plan Name *
             </label>
             <input
@@ -223,7 +223,7 @@ export default function WorkoutPlanCreator() {
               onChange={(e) =>
                 setWorkoutPlan((prev) => ({ ...prev, name: e.target.value }))
               }
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-blue-400"
               placeholder="e.g., Upper Body Strength"
             />
           </div>

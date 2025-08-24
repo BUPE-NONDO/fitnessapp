@@ -53,6 +53,7 @@ AuraFit is a comprehensive fitness application designed to provide users with pe
   - Dynamic greeting and motivational messages
   - Streak tracking display
   - Modern UI with gradients and shadows
+  - Custom SVG icons for professional appearance
 
 - [x] **Comprehensive Workout System**
   - Workout plan creator with exercise library

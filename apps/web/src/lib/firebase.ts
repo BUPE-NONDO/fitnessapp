@@ -7,7 +7,7 @@ import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey:
     import.meta.env.VITE_FIREBASE_API_KEY ||
-    "AIzaSyC-example-key-for-production",
+    "AIzaSyAGhmmERHqlE_6f2jFAALXiQFrtpy5fims",
   authDomain:
     import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ||
     "fitness-app-bupe-staging.firebaseapp.com",
@@ -15,10 +15,12 @@ const firebaseConfig = {
     import.meta.env.VITE_FIREBASE_PROJECT_ID || "fitness-app-bupe-staging",
   storageBucket:
     import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ||
-    "fitness-app-bupe-staging.appspot.com",
+    "fitness-app-bupe-staging.firebasestorage.app",
   messagingSenderId:
-    import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789:web:example",
+    import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "717122355693",
+  appId:
+    import.meta.env.VITE_FIREBASE_APP_ID ||
+    "1:717122355693:web:7b224927c57a2cc10b67e4",
 };
 
 // Initialize Firebase

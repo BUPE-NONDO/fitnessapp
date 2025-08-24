@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "../ui/ThemeToggle";
+import WorkoutPlanCreator from "../workouts/WorkoutPlanCreator";
+import WorkoutSession from "../workouts/WorkoutSession";
 
 interface Goal {
   id: string;
@@ -21,9 +23,13 @@ interface Goal {
 interface WorkoutPlan {
   id: string;
   name: string;
+  description: string;
   type: "strength" | "cardio" | "flexibility" | "mixed";
-  duration: string;
   difficulty: "beginner" | "intermediate" | "advanced";
+  duration: number;
+  exercises: any[];
+  frequency: "daily" | "3x-week" | "4x-week" | "5x-week";
+  targetMuscleGroups: string[];
   nextWorkout: string;
   progress: number;
 }
@@ -34,6 +40,10 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<
     "overview" | "goals" | "workouts" | "progress"
   >("overview");
+  const [showWorkoutCreator, setShowWorkoutCreator] = useState(false);
+  const [activeWorkoutSession, setActiveWorkoutSession] =
+    useState<WorkoutPlan | null>(null);
+  const [workoutPlans, setWorkoutPlans] = useState<WorkoutPlan[]>([]);
 
   // Mock data for goals
   const [goals] = useState<Goal[]>([
@@ -57,27 +67,44 @@ export default function Dashboard() {
     },
   ]);
 
-  // Mock data for workout plans
-  const [workoutPlans] = useState<WorkoutPlan[]>([
+  // Load workout plans from localStorage
+  useEffect(() => {
+    const savedPlans = JSON.parse(localStorage.getItem("workoutPlans") || "[]");
+    setWorkoutPlans(savedPlans);
+  }, []);
+
+  // Mock data for workout plans (fallback)
+  const defaultWorkoutPlans: WorkoutPlan[] = [
     {
       id: "1",
       name: "Strength Training",
+      description: "Upper body strength workout",
       type: "strength",
-      duration: "45 min",
+      duration: 45,
       difficulty: "intermediate",
+      exercises: [],
+      frequency: "3x-week",
+      targetMuscleGroups: ["Chest", "Back", "Arms"],
       nextWorkout: "Today",
       progress: 75,
     },
     {
       id: "2",
       name: "Cardio Blast",
+      description: "High-intensity cardio session",
       type: "cardio",
-      duration: "30 min",
+      duration: 30,
       difficulty: "beginner",
+      exercises: [],
+      frequency: "4x-week",
+      targetMuscleGroups: ["Cardio"],
       nextWorkout: "Tomorrow",
       progress: 60,
     },
-  ]);
+  ];
+
+  const displayWorkoutPlans =
+    workoutPlans.length > 0 ? workoutPlans : defaultWorkoutPlans;
 
   const handleSignOut = async () => {
     try {
@@ -126,6 +153,72 @@ export default function Dashboard() {
         return "💪";
     }
   };
+
+  // Show workout creator if active
+  if (showWorkoutCreator) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <header className="border-b bg-white shadow-sm">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between py-4">
+              <div className="flex items-center">
+                <button
+                  onClick={() => setShowWorkoutCreator(false)}
+                  className="mr-4 text-gray-600 hover:text-gray-800"
+                >
+                  ← Back to Dashboard
+                </button>
+                <h1 className="text-2xl font-bold text-gray-900">AuraFit</h1>
+              </div>
+              <div className="flex items-center space-x-4">
+                <ThemeToggle />
+                <button
+                  onClick={handleSignOut}
+                  className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <WorkoutPlanCreator />
+      </div>
+    );
+  }
+
+  // Show workout session if active
+  if (activeWorkoutSession) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <header className="border-b bg-white shadow-sm">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between py-4">
+              <div className="flex items-center">
+                <button
+                  onClick={() => setActiveWorkoutSession(null)}
+                  className="mr-4 text-gray-600 hover:text-gray-800"
+                >
+                  ← Back to Dashboard
+                </button>
+                <h1 className="text-2xl font-bold text-gray-900">AuraFit</h1>
+              </div>
+              <div className="flex items-center space-x-4">
+                <ThemeToggle />
+                <button
+                  onClick={handleSignOut}
+                  className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <WorkoutSession workoutPlan={activeWorkoutSession} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -212,7 +305,7 @@ export default function Dashboard() {
                   </div>
                   <div className="ml-4">
                     <div className="text-2xl font-bold text-gray-900">
-                      {workoutPlans.length}
+                      {displayWorkoutPlans.length}
                     </div>
                     <div className="text-sm text-gray-500">Workout Plans</div>
                   </div>
@@ -364,13 +457,16 @@ export default function Dashboard() {
               <h2 className="text-2xl font-bold text-gray-900">
                 Workout Plans
               </h2>
-              <button className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
+              <button
+                onClick={() => setShowWorkoutCreator(true)}
+                className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+              >
                 + Create Plan
               </button>
             </div>
 
             <div className="space-y-4">
-              {workoutPlans.map((plan) => (
+              {displayWorkoutPlans.map((plan) => (
                 <div
                   key={plan.id}
                   className="rounded-xl bg-white p-6 shadow-sm"
@@ -385,7 +481,7 @@ export default function Dashboard() {
                           {plan.name}
                         </h3>
                         <p className="text-sm text-gray-500">
-                          {plan.duration} • {plan.difficulty}
+                          {plan.duration} min • {plan.difficulty}
                         </p>
                         <p className="text-xs text-blue-600">
                           Next: {plan.nextWorkout}
@@ -400,7 +496,10 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="mt-4 flex space-x-2">
-                    <button className="flex-1 rounded-lg bg-blue-600 py-2 text-white transition-colors hover:bg-blue-700">
+                    <button
+                      onClick={() => setActiveWorkoutSession(plan)}
+                      className="flex-1 rounded-lg bg-blue-600 py-2 text-white transition-colors hover:bg-blue-700"
+                    >
                       Start Workout
                     </button>
                     <button className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200">

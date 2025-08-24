@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ThemeToggle from "../ui/ThemeToggle";
 import WorkoutPlanCreator from "../workouts/WorkoutPlanCreator";
 import WorkoutSession from "../workouts/WorkoutSession";
+import GoalCreator from "../goals/GoalCreator";
 import {
   HomeIcon,
   GoalIcon,
@@ -55,12 +56,13 @@ export default function Dashboard() {
     "overview" | "goals" | "workouts" | "progress"
   >("overview");
   const [showWorkoutCreator, setShowWorkoutCreator] = useState(false);
+  const [showGoalCreator, setShowGoalCreator] = useState(false);
   const [activeWorkoutSession, setActiveWorkoutSession] =
     useState<WorkoutPlan | null>(null);
   const [workoutPlans, setWorkoutPlans] = useState<WorkoutPlan[]>([]);
 
   // Mock data for goals
-  const [goals] = useState<Goal[]>([
+  const [goals, setGoals] = useState<Goal[]>([
     {
       id: "1",
       type: "weight-loss",
@@ -127,6 +129,10 @@ export default function Dashboard() {
     } catch (error) {
       console.error("Failed to sign out:", error);
     }
+  };
+
+  const handleSaveGoal = (newGoal: Goal) => {
+    setGoals((prev) => [...prev, newGoal]);
   };
 
   const getGreeting = () => {
@@ -451,7 +457,10 @@ export default function Dashboard() {
               <h2 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
                 Your Goals
               </h2>
-              <button className="flex items-center justify-center space-x-2 rounded-lg bg-blue-600 px-3 py-2 text-sm text-white transition-colors hover:bg-blue-700 sm:px-4 sm:text-base">
+              <button
+                onClick={() => setShowGoalCreator(true)}
+                className="flex items-center justify-center space-x-2 rounded-lg bg-blue-600 px-3 py-2 text-sm text-white transition-colors hover:bg-blue-700 sm:px-4 sm:text-base"
+              >
                 <PlusIcon className="h-4 w-4" />
                 <span>Add Goal</span>
               </button>
@@ -657,6 +666,14 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Goal Creator Modal */}
+        {showGoalCreator && (
+          <GoalCreator
+            onClose={() => setShowGoalCreator(false)}
+            onSave={handleSaveGoal}
+          />
         )}
       </main>
     </div>

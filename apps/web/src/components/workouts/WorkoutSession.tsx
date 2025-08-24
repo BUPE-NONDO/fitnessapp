@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { TimerIcon, SkipIcon, CheckIcon } from "../ui/Icons";
 
 interface Exercise {
   id: string;
@@ -232,9 +233,10 @@ export default function WorkoutSession({
           </div>
           <button
             onClick={skipRest}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+            className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
           >
-            Skip Rest
+            <SkipIcon className="h-4 w-4" />
+            <span>Skip Rest</span>
           </button>
         </div>
       )}
@@ -286,9 +288,10 @@ export default function WorkoutSession({
           <div className="flex space-x-4">
             <button
               onClick={completeSet}
-              className="flex-1 rounded-lg bg-green-600 py-3 font-medium text-white transition-colors hover:bg-green-700"
+              className="flex flex-1 items-center justify-center space-x-2 rounded-lg bg-green-600 py-3 font-medium text-white transition-colors hover:bg-green-700"
             >
-              Complete Set
+              <CheckIcon className="h-4 w-4" />
+              <span>Complete Set</span>
             </button>
             <button
               onClick={() => setShowNotes(!showNotes)}

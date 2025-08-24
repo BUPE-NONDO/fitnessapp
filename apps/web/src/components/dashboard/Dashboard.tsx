@@ -4,6 +4,20 @@ import { useNavigate } from "react-router-dom";
 import ThemeToggle from "../ui/ThemeToggle";
 import WorkoutPlanCreator from "../workouts/WorkoutPlanCreator";
 import WorkoutSession from "../workouts/WorkoutSession";
+import {
+  HomeIcon,
+  GoalIcon,
+  WorkoutIcon,
+  ProgressIcon,
+  StrengthIcon,
+  CardioIcon,
+  FlexibilityIcon,
+  BodyweightIcon,
+  WeightLossIcon,
+  MuscleGainIcon,
+  EnduranceIcon,
+  PlusIcon,
+} from "../ui/Icons";
 
 interface Goal {
   id: string;
@@ -125,32 +139,32 @@ export default function Dashboard() {
   const getGoalIcon = (type: string) => {
     switch (type) {
       case "weight-loss":
-        return "⚖️";
+        return <WeightLossIcon className="h-6 w-6" />;
       case "muscle-gain":
-        return "💪";
+        return <MuscleGainIcon className="h-6 w-6" />;
       case "strength":
-        return "🏋️";
+        return <StrengthIcon className="h-6 w-6" />;
       case "endurance":
-        return "🏃";
+        return <EnduranceIcon className="h-6 w-6" />;
       case "flexibility":
-        return "🧘";
+        return <FlexibilityIcon className="h-6 w-6" />;
       default:
-        return "🎯";
+        return <GoalIcon className="h-6 w-6" />;
     }
   };
 
   const getWorkoutIcon = (type: string) => {
     switch (type) {
       case "strength":
-        return "🏋️";
+        return <StrengthIcon className="h-6 w-6" />;
       case "cardio":
-        return "🏃";
+        return <CardioIcon className="h-6 w-6" />;
       case "flexibility":
-        return "🧘";
+        return <FlexibilityIcon className="h-6 w-6" />;
       case "mixed":
-        return "⚡";
+        return <WorkoutIcon className="h-6 w-6" />;
       default:
-        return "💪";
+        return <WorkoutIcon className="h-6 w-6" />;
     }
   };
 
@@ -258,10 +272,26 @@ export default function Dashboard() {
         <div className="mb-6 rounded-2xl bg-white shadow-sm">
           <div className="flex space-x-1 p-2">
             {[
-              { id: "overview", label: "Overview", icon: "🏠" },
-              { id: "goals", label: "Goals", icon: "🎯" },
-              { id: "workouts", label: "Workouts", icon: "💪" },
-              { id: "progress", label: "Progress", icon: "📊" },
+              {
+                id: "overview",
+                label: "Overview",
+                icon: <HomeIcon className="h-5 w-5" />,
+              },
+              {
+                id: "goals",
+                label: "Goals",
+                icon: <GoalIcon className="h-5 w-5" />,
+              },
+              {
+                id: "workouts",
+                label: "Workouts",
+                icon: <WorkoutIcon className="h-5 w-5" />,
+              },
+              {
+                id: "progress",
+                label: "Progress",
+                icon: <ProgressIcon className="h-5 w-5" />,
+              },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -272,7 +302,7 @@ export default function Dashboard() {
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
-                <span>{tab.icon}</span>
+                {tab.icon}
                 <span className="font-medium">{tab.label}</span>
               </button>
             ))}
@@ -287,7 +317,7 @@ export default function Dashboard() {
               <div className="rounded-xl bg-white p-6 shadow-sm">
                 <div className="flex items-center">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
-                    <span className="text-xl">🎯</span>
+                    <GoalIcon className="h-6 w-6 text-blue-600" />
                   </div>
                   <div className="ml-4">
                     <div className="text-2xl font-bold text-gray-900">
@@ -301,7 +331,7 @@ export default function Dashboard() {
               <div className="rounded-xl bg-white p-6 shadow-sm">
                 <div className="flex items-center">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
-                    <span className="text-xl">💪</span>
+                    <WorkoutIcon className="h-6 w-6 text-green-600" />
                   </div>
                   <div className="ml-4">
                     <div className="text-2xl font-bold text-gray-900">
@@ -315,7 +345,7 @@ export default function Dashboard() {
               <div className="rounded-xl bg-white p-6 shadow-sm">
                 <div className="flex items-center">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
-                    <span className="text-xl">📊</span>
+                    <ProgressIcon className="h-6 w-6 text-purple-600" />
                   </div>
                   <div className="ml-4">
                     <div className="text-2xl font-bold text-gray-900">12</div>
@@ -335,7 +365,7 @@ export default function Dashboard() {
                   onClick={() => setActiveTab("workouts")}
                   className="flex items-center rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 p-4 text-white transition-all hover:from-blue-600 hover:to-blue-700"
                 >
-                  <div className="mr-4 text-2xl">💪</div>
+                  <WorkoutIcon className="mr-4 h-8 w-8" />
                   <div className="text-left">
                     <div className="font-medium">Start Workout</div>
                     <div className="text-sm text-blue-100">
@@ -348,7 +378,7 @@ export default function Dashboard() {
                   onClick={() => setActiveTab("goals")}
                   className="flex items-center rounded-xl bg-gradient-to-r from-green-500 to-green-600 p-4 text-white transition-all hover:from-green-600 hover:to-green-700"
                 >
-                  <div className="mr-4 text-2xl">🎯</div>
+                  <GoalIcon className="mr-4 h-8 w-8" />
                   <div className="text-left">
                     <div className="font-medium">Set New Goal</div>
                     <div className="text-sm text-green-100">
@@ -401,8 +431,9 @@ export default function Dashboard() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-gray-900">Your Goals</h2>
-              <button className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
-                + Add Goal
+              <button className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
+                <PlusIcon className="h-4 w-4" />
+                <span>Add Goal</span>
               </button>
             </div>
 
@@ -459,9 +490,10 @@ export default function Dashboard() {
               </h2>
               <button
                 onClick={() => setShowWorkoutCreator(true)}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+                className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
               >
-                + Create Plan
+                <PlusIcon className="h-4 w-4" />
+                <span>Create Plan</span>
               </button>
             </div>
 

@@ -1,4 +1,11 @@
 import { useState } from "react";
+import {
+  StrengthIcon,
+  CardioIcon,
+  FlexibilityIcon,
+  BodyweightIcon,
+  PlusIcon,
+} from "../ui/Icons";
 
 interface Exercise {
   id: string;
@@ -323,9 +330,10 @@ export default function WorkoutPlanCreator() {
           <h3 className="text-lg font-semibold text-gray-900">Exercises</h3>
           <button
             onClick={() => setShowExerciseModal(true)}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+            className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
           >
-            + Add Exercise
+            <PlusIcon className="h-4 w-4" />
+            <span>Add Exercise</span>
           </button>
         </div>
 
@@ -507,9 +515,10 @@ export default function WorkoutPlanCreator() {
               </button>
               <button
                 onClick={addExercise}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+                className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
               >
-                Add Exercise
+                <PlusIcon className="h-4 w-4" />
+                <span>Add Exercise</span>
               </button>
             </div>
           </div>

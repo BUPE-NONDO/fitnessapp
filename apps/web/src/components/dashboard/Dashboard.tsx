@@ -13,7 +13,6 @@ import {
   StrengthIcon,
   CardioIcon,
   FlexibilityIcon,
-  BodyweightIcon,
   WeightLossIcon,
   MuscleGainIcon,
   EnduranceIcon,

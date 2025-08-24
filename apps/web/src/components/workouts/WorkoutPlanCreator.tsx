@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  StrengthIcon,
-  CardioIcon,
-  FlexibilityIcon,
-  BodyweightIcon,
-  PlusIcon,
-} from "../ui/Icons";
+import { PlusIcon } from "../ui/Icons";
 
 interface Exercise {
   id: string;
@@ -411,7 +405,11 @@ export default function WorkoutPlanCreator() {
                     setSelectedExercise((prev) => ({
                       ...prev,
                       name: exercise?.name,
-                      category: exercise?.category,
+                      category: exercise?.category as
+                        | "strength"
+                        | "cardio"
+                        | "flexibility"
+                        | "bodyweight",
                       muscleGroup: exercise?.muscleGroup,
                       equipment: exercise?.equipment,
                     }));

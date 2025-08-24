@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TimerIcon, SkipIcon, CheckIcon } from "../ui/Icons";
+import { SkipIcon, CheckIcon } from "../ui/Icons";
 
 interface Exercise {
   id: string;

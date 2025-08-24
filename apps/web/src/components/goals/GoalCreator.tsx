@@ -5,7 +5,6 @@ import {
   StrengthIcon,
   EnduranceIcon,
   FlexibilityIcon,
-  GoalIcon,
   PlusIcon,
 } from "../ui/Icons";
 

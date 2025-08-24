@@ -1,16 +1,24 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-// Demo configuration for local development with emulators
+// Real Firebase configuration for production
 const firebaseConfig = {
-  apiKey: "demo-api-key-for-local-development",
-  authDomain: "demo-project.firebaseapp.com",
-  projectId: "demo-project",
-  storageBucket: "demo-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:demo",
+  apiKey:
+    import.meta.env.VITE_FIREBASE_API_KEY ||
+    "AIzaSyC-example-key-for-production",
+  authDomain:
+    import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ||
+    "fitness-app-bupe-staging.firebaseapp.com",
+  projectId:
+    import.meta.env.VITE_FIREBASE_PROJECT_ID || "fitness-app-bupe-staging",
+  storageBucket:
+    import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ||
+    "fitness-app-bupe-staging.appspot.com",
+  messagingSenderId:
+    import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789:web:example",
 };
 
 // Initialize Firebase
@@ -21,19 +29,29 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-// Connect to emulators in development
-if (import.meta.env.DEV) {
+// Only connect to emulators in development mode when explicitly enabled
+if (import.meta.env.DEV && import.meta.env.VITE_USE_EMULATORS === "true") {
   try {
-    // Connect to auth emulator
+    // Import emulator functions only when needed
+    const { connectAuthEmulator } = await import("firebase/auth");
+    const { connectFirestoreEmulator } = await import("firebase/firestore");
+    const { connectStorageEmulator } = await import("firebase/storage");
+
+    // Connect to emulators
     connectAuthEmulator(auth, "http://127.0.0.1:9099", {
       disableWarnings: true,
     });
-    console.log(
-      "🔥 Connected to Firebase Auth emulator on http://127.0.0.1:9099"
-    );
+    connectFirestoreEmulator(db, "127.0.0.1", 8080);
+    connectStorageEmulator(storage, "127.0.0.1", 9199);
+    console.log("🔥 Connected to Firebase emulators");
   } catch (error) {
-    console.log("⚠️ Auth emulator connection failed:", error);
+    console.log(
+      "⚠️ Emulator connection failed, using production Firebase:",
+      error
+    );
   }
+} else {
+  console.log("🚀 Using production Firebase services");
 }
 
 export default app;
